@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Учебный проект Яндекс Практикум. 2 месяц, 2 проект: работа с формами" />
+  <meta name="keywords" content="HTML5, CSS" />
+  <meta name="author" content="Иванов Сергей" />
+  <title>Место</title>
+  <link rel="stylesheet" href="./pages/index.css" />
+  <link rel="stylesheet" href="./debug.css">
+</head>
+
+<body class="page">
+
+  <header class="page__header header">
+    <img src="./images/logo.svg" alt="логотип проекта" class="header__logo">
+  </header>
+
+  <main class="content">
+    <section class="page__profile profile" aria-label="Описание профиля">
+      <div class="profile__avatar"></div>
+      <div class="profile__info">
+        <h2 class="profile__title">Жак-Ив Кусто</h2>
+        <div class="profile__edit-button"></div>
+        <p class="profile__text">Исследователь океана</p>
+      </div>
+      <div class="profile__add-button"></div>
+    </section>
+
+    <section class="page__elements" aria-label="Картинки">
+      <ul class="page__list  elements">
+
+        <li class="card">
+          <figure class="card__img">
+            <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
+            <figcaption class="card__caption">
+              <h2 class="card__text">Карачаевск</h2>
+              <div class="card__like-button"> </div>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="card">
+          <figure class="card__img">
+            <img src="./images/elbrus.png" alt="Эльбрус" class="card__img">
+            <figcaption class="card__caption">
+              <h2 class="card__text">Гора Эльбрус</h2>
+              <div class="card__like-button"> </div>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="card">
+          <figure class="card__img">
+            <img src="./images/dombai.png" alt="Домбай" class="card__img">
+            <figcaption class="card__caption">
+              <h2 class="card__text">Домбай</h2>
+              <div class="card__like-button"> </div>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="card">
+          <figure class="card__img">
+            <img src="./images/elbrus.png" alt="Эльбрус" class="card__img">
+            <figcaption class="card__caption">
+              <h2 class="card__text">Гора Эльбрус</h2>
+              <div class="card__like-button"> </div>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="card">
+          <figure class="card__img">
+            <img src="./images/dombai.png" alt="Домбай" class="card__img">
+            <figcaption class="card__caption">
+              <h2 class="card__text">Домбай</h2>
+              <div class="card__like-button  card__like-button_active"> </div>
+            </figcaption>
+          </figure>
+        </li>
+
+        <li class="card">
+          <figure class="card__img">
+            <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
+            <figcaption class="card__caption">
+              <h2 class="card__text">Карачаевск</h2>
+              <div class="card__like-button"> </div>
+            </figcaption>
+          </figure>
+        </li>
+
+      </ul>
+    </section>
+  </main>
+
+  <footer class="page__footer footer">
+    <p class="footer__copyright">© 2020 Mesto Russia</p>
+  </footer>
+</body>
+
+</html>
