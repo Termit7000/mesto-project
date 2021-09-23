@@ -1,0 +1,13 @@
+.popup__button_event_close {
+  position: absolute;
+  background-image: url(../../../../images/close_icon.svg);
+  width: 32px;
+  height: 32px;
+  top: -40px;
+  right: -40px;
+  cursor: pointer;
+}
+
+.popup__button_event_close:hover {
+  background-image: url(../../../../images/close_icon-hover.svg);
+}
