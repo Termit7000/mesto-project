@@ -4,5 +4,5 @@ document.querySelector('.profile__edit-button').addEventListener('click', functi
 
 
 document.querySelectorAll('.card__like-button').forEach(item => item.addEventListener('click', function(event) {
-  event.currentTarget.classList.toggle('card__like-button_active');
+  event.target.classList.toggle('card__like-button_active');
 }, false));
