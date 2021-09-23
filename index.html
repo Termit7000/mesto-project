@@ -9,7 +9,6 @@
   <meta name="author" content="Иванов Сергей" />
   <title>Место</title>
   <link rel="stylesheet" href="./pages/index.css" />
-  <link rel="stylesheet" href="./debug.css">
 </head>
 
 <body class="page">
@@ -24,8 +23,9 @@
         <input type="text" value="Исследователь океана" class="popup__item" id="description" name="description">
 
       </fieldset>
-      <button type="submit" class="popup__button popup__button_event_submit">Сохранить</button>>
-      <button class="popup__button popup__button_event_close"></button>
+
+      <button type="submit" class="button popup__button  popup__button_event_submit">Сохранить</button>
+      <button class="button popup__button popup__button_event_close"></button>
     </form>
   </section>
 
@@ -38,10 +38,10 @@
       <div class="profile__avatar"></div>
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
-        <div class="profile__edit-button"></div>
+        <button class="button profile__edit-button"></button>
         <p class="profile__text">Исследователь океана</p>
       </div>
-      <div class="profile__add-button"></div>
+      <button class="button profile__add-button"></button>
     </section>
 
     <section class="page__elements" aria-label="Картинки">
@@ -51,8 +51,8 @@
           <figure class="card__img">
             <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
             <figcaption class="card__caption">
-              <h2 class="card__text">Карачаевск</h2>
-              <div class="card__like-button  card__like-button_active"> </div>
+              <h2 class="card__text">Карачаево-Черкессия</h2>
+              <button class="button card__like-button  card__like-button_active"> </button>
             </figcaption>
           </figure>
         </li>
@@ -62,7 +62,7 @@
             <img src="./images/elbrus.png" alt="Эльбрус" class="card__img">
             <figcaption class="card__caption">
               <h2 class="card__text">Гора Эльбрус</h2>
-              <div class="card__like-button"> </div>
+              <button class="button card__like-button"> </button>
             </figcaption>
           </figure>
         </li>
@@ -72,7 +72,7 @@
             <img src="./images/dombai.png" alt="Домбай" class="card__img">
             <figcaption class="card__caption">
               <h2 class="card__text">Домбай</h2>
-              <div class="card__like-button"> </div>
+              <button class="button card__like-button"> </button>
             </figcaption>
           </figure>
         </li>
@@ -82,7 +82,7 @@
             <img src="./images/elbrus.png" alt="Эльбрус" class="card__img">
             <figcaption class="card__caption">
               <h2 class="card__text">Гора Эльбрус</h2>
-              <div class="card__like-button"> </div>
+              <button class="button card__like-button"> </button>
             </figcaption>
           </figure>
         </li>
@@ -92,7 +92,7 @@
             <img src="./images/dombai.png" alt="Домбай" class="card__img">
             <figcaption class="card__caption">
               <h2 class="card__text">Домбай</h2>
-              <div class="card__like-button  card__like-button_active"> </div>
+              <button class="button card__like-button"> </button>
             </figcaption>
           </figure>
         </li>
@@ -102,7 +102,7 @@
             <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
             <figcaption class="card__caption">
               <h2 class="card__text">Карачаевск</h2>
-              <div class="card__like-button"> </div>
+              <button class="button card__like-button"> </button>
             </figcaption>
           </figure>
         </li>
@@ -114,6 +114,8 @@
   <footer class="page__footer footer">
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
+  <script src="./pages/index.js"> </script>
+
 </body>
 
 </html>

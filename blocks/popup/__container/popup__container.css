@@ -1,5 +1,6 @@
 .popup__container {
   position: fixed;
+  box-sizing: border-box;
   width: 430px;
   min-height: 330px;
   top: calc((100% - 330px) / 2);
@@ -10,4 +11,14 @@
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   padding: 34px 36px 37px 36px;
+}
+
+@media screen and (max-width: 880px) {
+  .popup__container {
+    width: 282px;
+    height: 322px;
+    top: calc((100% - 322px) / 2);
+    left: calc((100% - 282px) / 2);
+    padding: 25px 22px 25px 22px;
+  }
 }
