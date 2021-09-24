@@ -11,8 +11,16 @@
   line-height: 22px;
   text-align: center;
   color: #FFFFFF;
+  cursor: pointer;
 }
 
 .popup__button_event_submit:hover {
   background-color: rgba(0, 0, 0, .8);
+}
+
+@media screen and (max-width: 880px) {
+  .popup__button_event_submit {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }
