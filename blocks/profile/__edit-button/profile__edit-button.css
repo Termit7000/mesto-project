@@ -3,9 +3,19 @@
   width: 24px;
   height: 24px;
   background-image: url(../../../images/edit-button.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
   cursor: pointer;
 }
 
 .profile__edit-button:hover {
   background-image: url(../../../images/edit-button-hover.svg);
+}
+
+@media screen and (max-width: 880px) {
+  .profile__edit-button {
+    width: 18px;
+    height: 18px;
+  }
 }
