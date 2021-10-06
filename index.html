@@ -40,7 +40,7 @@
     <p class="footer__copyright">© 2020 Mesto Russia</p>
   </footer>
 
-  <div class="popup profile__form">
+  <div class="popup popup__profile">
     <div class="popup__container">
 
       <form name="profile-form" class="popup__form">
@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <div class="popup card__form">
+  <div class="popup popup__card">
     <div class="popup__container">
 
       <form name="card-form" class="popup__form">
@@ -80,11 +80,27 @@
     </div>
   </div>
 
+  <div class="popup popup__img">
+    <div class="popup__container image-popup">
+
+      <figure class="image-popup__wraper">
+        <img src="./images/karachaevsk.png" alt="Тест" class="image-popup__img">
+        <figcaption>Карачаево-Черкессия</figcaption>
+      </figure>
+
+      <button class="button popup__button popup__button_event_close" aria-label="Закрыть форму"></button>
+    </div>
+  </div>
+
 <template class="templates">
 
   <li class = "elements__list-item">
     <article class="card" aria-label="Место">
-      <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
+
+      <button class="button card__popup-button" type="button">
+        <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
+      </button>
+
       <div class="card__caption">
         <h2 class="card__text">Карачаево-Черкессия</h2>
         <button class="button card__like-button" aria-label="Нравится" type="button"></button>

@@ -31,6 +31,7 @@
 @import url(../blocks/card/__like-button/card__like-button.css);
 @import url(../blocks/card/__like-button/_active/card__like-button_active.css);
 @import url(../blocks/card/__trash-button/card__trash-button.css);
+@import url(../blocks/card/__popup-button/card__popup-button.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
@@ -45,4 +46,9 @@
 @import url(../blocks/popup/__button/popup__button.css);
 @import url(../blocks/popup/__button/_event/popup__button_event_close.css);
 @import url(../blocks/popup/__button/_event/popup__button_event_submit.css);
+@import url(../blocks/popup/__img/popup__img.css);
+
+@import url(../blocks/image-popup/image-popup.css);
+@import url(../blocks/image-popup/__img/image-popup__img.css);
+@import url(../blocks/image-popup/__wraper/image-popup__wraper.css);
 
