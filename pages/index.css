@@ -48,7 +48,8 @@
 @import url(../blocks/popup/__button/_event/popup__button_event_submit.css);
 @import url(../blocks/popup/__img/popup__img.css);
 
-@import url(../blocks/image-popup/image-popup.css);
-@import url(../blocks/image-popup/__img/image-popup__img.css);
-@import url(../blocks/image-popup/__wraper/image-popup__wraper.css);
+@import url(../blocks/image-modal/image-modal.css);
+@import url(../blocks/image-modal/__content/image-modal__content.css);
+@import url(../blocks/image-modal/__body/image-modal__body.css);
+@import url(../blocks/image-modal/__caption/image-modal__caption.css);
 
