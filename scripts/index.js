@@ -8,7 +8,7 @@ function openForm(popupForm) {
   popupForm.classList.add('popup_opened');
 }
 
-const popupProfile = document.querySelector('.popup.popup__profile');
+const popupProfile = document.querySelector('.popup__profile');
 const editForm = popupProfile.querySelector('.popup__form');
 const closeButtonFormEdit = popupProfile.querySelector('.popup__button_event_close');
 const editFormProfileName = editForm.querySelector('.popup__input-container_name');
@@ -56,7 +56,7 @@ function openImg(imgSrc, caption) {
 
 //УПРАВЛЕНИЕ КАРТОЧКАМИ
 const addCardButton = document.querySelector('.profile__add-button');
-const popupCard = document.querySelector('.popup.popup__card');
+const popupCard = document.querySelector('.popup__card');
 const cardForm = popupCard.querySelector('.popup__form');
 const cardFormImgName = cardForm.querySelector('.popup__input-container_name');
 const cardFormimgLink = cardForm.querySelector('.popup__input-container_link');
@@ -66,27 +66,27 @@ const cardTempl = document.querySelector('.templates').content.querySelector('.e
 
 function addCard(link, name) {
 
-  let card = cardTempl.cloneNode(true);
+  const card = cardTempl.cloneNode(true);
   elements.insertAdjacentElement('afterbegin', card);
 
-  let img = card.querySelector('.card__img');
+  const img = card.querySelector('.card__img');
   img.src = link;
   img.alt = name;
 
   card.querySelector('.card__text').textContent = name;
 
   //POPUP IMG
-  let popupButton = card.querySelector('.card__popup-button');
+  const popupButton = card.querySelector('.card__popup-button');
   popupButton.addEventListener('click', openImg(link, name));
 
   //LIKE
-  let likeButton = card.querySelector('.card__like-button');
+  const likeButton = card.querySelector('.card__like-button');
   likeButton.addEventListener('click', function () {
     likeButton.classList.toggle('card__like-button_active');
   });
 
   //DELETE CARD
-  let trashButton = card.querySelector('.card__trash-button');
+  const trashButton = card.querySelector('.card__trash-button');
   trashButton.addEventListener('click', function () {
     card.remove();
   });
