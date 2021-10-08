@@ -1,73 +1,87 @@
-function closeForm(popupForm) {
-  return function () {
-    popupForm.classList.remove('popup_opened');
-  }
-}
 
-function openForm(popupForm) {
-  popupForm.classList.add('popup_opened');
-}
+//ПРОФИЛЬ
+const profilePopup = document.querySelector('.popup__profile');
+const formProfileEdit = profilePopup.querySelector('.popup__form');
+const buttonCloseProfileEdit = profilePopup.querySelector('.popup__button_event_close');
+const nameInputFormProfile = formProfileEdit.querySelector('.popup__input-container_name');
+const jobInputFormProfile = formProfileEdit.querySelector('.popup__input-container_job');
 
-const popupProfile = document.querySelector('.popup__profile');
-const editForm = popupProfile.querySelector('.popup__form');
-const closeButtonFormEdit = popupProfile.querySelector('.popup__button_event_close');
-const editFormProfileName = editForm.querySelector('.popup__input-container_name');
-const editFormPrifileJob = editForm.querySelector('.popup__input-container_job');
-
-const profileJob = document.querySelector('.profile__text'); //Деятельность
-const profileName = document.querySelector('.profile__title'); //Имя профиля
-
-const closeProfileForm = closeForm(popupProfile);
-
-editForm.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-  profileJob.textContent = editFormPrifileJob.value;
-  profileName.textContent = editFormProfileName.value;
-  closeProfileForm();
-});
-
-closeButtonFormEdit.addEventListener('click', closeProfileForm);
-
-//открытие формы профиля
-const editButton = document.querySelector('.profile__edit-button');
-editButton.addEventListener('click', function () {
-  editFormProfileName.value = profileName.textContent;
-  editFormPrifileJob.value = profileJob.textContent;
-  openForm(popupProfile);
-});
+const jobProfile = document.querySelector('.profile__text');
+const nameProfile = document.querySelector('.profile__title');
+const buttonEditProfile = document.querySelector('.profile__edit-button');
 
 //POPUP IMG
 const imgPopup = document.querySelector('.popup__img');
 const imgFigure = imgPopup.querySelector('.image-modal__body');
 const captionImg = imgPopup.querySelector('.image-modal__caption');
-const closeButtonImgModel = imgPopup.querySelector('.popup__button_event_close');
-closeButtonImgModel.addEventListener('click', closeForm(imgPopup));
-
-function openImg(imgSrc, caption) {
-
-  return function () {
-    imgFigure.src = imgSrc;
-    imgFigure.alt = caption;
-    captionImg.textContent = caption;
-
-    openForm(imgPopup);
-  };
-}
+const buttonCloseImgPopup = imgPopup.querySelector('.popup__button_event_close');
 
 //УПРАВЛЕНИЕ КАРТОЧКАМИ
-const addCardButton = document.querySelector('.profile__add-button');
-const popupCard = document.querySelector('.popup__card');
-const cardForm = popupCard.querySelector('.popup__form');
-const cardFormImgName = cardForm.querySelector('.popup__input-container_name');
-const cardFormimgLink = cardForm.querySelector('.popup__input-container_link');
+const buttonAddCard = document.querySelector('.profile__add-button');
+const cardPopup = document.querySelector('.popup__card');
+const cardForm = cardPopup.querySelector('.popup__form');
+const nameImgCardForm = cardForm.querySelector('.popup__input-container_name');
+const linkImgCardForm = cardForm.querySelector('.popup__input-container_link');
+const buttonCloseCardForm = cardPopup.querySelector('.popup__button_event_close');
 
 const elements = document.querySelector('.elements');
 const cardTempl = document.querySelector('.templates').content.querySelector('.elements__list-item');
 
-function addCard(link, name) {
+/**
+ * Закрывает модальное окно
+ * @param {Element} popup - Модальное окно
+ */
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+}
+
+/**
+ * Открывает модальное окно
+ * @param {Element} popup  - Модальное окно
+ */
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+}
+
+/**
+ * Открывает модальное окно по переданной картинке
+ * @param {URL} imgSrc  - путь к картинке
+ * @param {String} caption - подпись к картинке
+ */
+function openImg(imgSrc, caption) {
+
+  imgFigure.src = imgSrc;
+  imgFigure.alt = caption;
+  captionImg.textContent = caption;
+
+  openPopup(imgPopup);
+}
+
+/**
+ * Удаляет карточку места
+ * @param {Element} card - карточка места
+ */
+function removeCard(card) {
+  card.remove();
+}
+
+/**
+ * Отмечает кнопку like
+ * @param {Element} likeButton  - кнопка like карточки места
+ */
+function likeCard(likeButton) {
+  likeButton.classList.toggle('card__like-button_active');
+}
+
+/**
+ * Создает новую карточку места
+ * @param {URL} link - путь к картинке места
+ * @param {String} name - название места
+ * @returns
+ */
+function createCard(link, name) {
 
   const card = cardTempl.cloneNode(true);
-  elements.insertAdjacentElement('afterbegin', card);
 
   const img = card.querySelector('.card__img');
   img.src = link;
@@ -77,39 +91,86 @@ function addCard(link, name) {
 
   //POPUP IMG
   const popupButton = card.querySelector('.card__popup-button');
-  popupButton.addEventListener('click', openImg(link, name));
+  popupButton.addEventListener('click', () => openImg(link, name));
 
   //LIKE
   const likeButton = card.querySelector('.card__like-button');
-  likeButton.addEventListener('click', function () {
-    likeButton.classList.toggle('card__like-button_active');
-  });
+  likeButton.addEventListener('click', () => likeCard(likeButton));
 
   //DELETE CARD
   const trashButton = card.querySelector('.card__trash-button');
-  trashButton.addEventListener('click', function () {
-    card.remove();
-  });
+  trashButton.addEventListener('click', () => removeCard(card));
+
+  return card;
 }
 
-addCardButton.addEventListener('click', function () {
-  cardFormImgName.value = "";
-  cardFormimgLink.value = "";
-  openForm(popupCard);
+/**
+ * Добавляет карточку места в HTML
+ * @param {Element} card
+ * @param {Element} место вставки карточки
+ */
+function insertCardHTML(card, place) {
+  place.insertAdjacentElement('afterbegin', card);
+}
+
+//ОБРАБОТЧИКИ ПРОФИЛЯ
+
+formProfileEdit.addEventListener('submit', function (evt) {
+  evt.preventDefault();
+  jobProfile.textContent = jobInputFormProfile.value;
+  nameProfile.textContent = nameInputFormProfile.value;
+  closePopup(profilePopup);
 });
 
-const closeButtonFormCard = closeForm(popupCard);
+buttonCloseProfileEdit.addEventListener('click', () => closePopup(profilePopup));
+
+buttonEditProfile.addEventListener('click', function () {
+  nameInputFormProfile.value = nameProfile.textContent;
+  jobInputFormProfile.value = jobProfile.textContent;
+  openPopup(profilePopup);
+});
+
+
+//ОБРАБОТЧИКИ МОДАЛЬНОЙ ФОРМЫ КАРТИНКИ
+
+buttonCloseImgPopup.addEventListener('click', () => closePopup(imgPopup));
+
+
+//ОБРАБОТЧИКИ КАРТОЧКИ МЕСТА
+
+buttonAddCard.addEventListener('click', function () {
+  nameImgCardForm.value = "";
+  linkImgCardForm.value = "";
+  openPopup(cardPopup);
+});
 
 cardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  addCard(cardFormimgLink.value, cardFormImgName.value);
-  closeButtonFormCard();
+  insertCardHTML(createCard(linkImgCardForm.value, nameImgCardForm.value), elements);
+  closePopup(cardPopup);
 });
 
-const closeButtonCardForm = popupCard.querySelector('.popup__button_event_close');
-closeButtonCardForm.addEventListener('click', closeButtonFormCard);
+buttonCloseCardForm.addEventListener('click', () => closePopup(cardPopup));
 
-//Карточки с картинками при загрузке страницы
+
+//ИНИЦИАЛИЗАЦИЯ
+
+/*
+TO Aygul Malikova
+
+не нашел как вынести initialCards в отдельный модуль и подключить его к html.
+
+что обнаружил. для подключаемого скрипта установить type="module", для того чтобы работали import и export.
+но в этом случае, при открытии сайта в браузере (Chrome), скрипты не срабатывают, а срабатывают только если сайт открывать на сервере, в т.ч. через LiveServer
+
+Если есть какая-то возможность выполнить модульный скрипт при загрузке не в серверном режиме, буду благодарен за ссылку на теорию.
+
+можно конечно в новый файл вынести не только переменную, но и функции заполнения и вставки, но, поскольку, импорта/экспорта нет, то придется дублировать
+код, а это не очень красиво.
+
+Спасибо.
+*/
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -137,9 +198,6 @@ const initialCards = [
   }
 ];
 
-initialCards.forEach(i => {
-  addCard(i.link, i.name);
+initialCards.forEach(card => {
+  insertCardHTML(createCard(card.link, card.name), elements);
 });
-
-
-

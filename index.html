@@ -37,7 +37,7 @@
   </main>
 
   <footer class="page__footer footer">
-    <p class="footer__copyright">© 2020 Mesto Russia</p>
+    <p class="footer__copyright">© 2021 Mesto Russia</p>
   </footer>
 
   <div class="popup popup__profile">
@@ -47,10 +47,10 @@
         <h2 class="popup__title">Редактировать профиль</h2>
         <fieldset class="popup__input-container">
 
-          <input type="text" placeholder="Ваше имея" required value="Жак-Ив Кусто" class="popup__item popup__input-container_name" id="login"
-            name="login">
-          <input type="text" placeholder="Краткое описание" required value="Исследователь океана" class="popup__item popup__input-container_job"
-            id="description" name="description">
+          <input type="text" placeholder="Ваше имея" required value="Жак-Ив Кусто"
+            class="popup__item popup__input-container_name" id="login" name="login">
+          <input type="text" placeholder="Краткое описание" required value="Исследователь океана"
+            class="popup__item popup__input-container_job" id="description" name="description">
 
         </fieldset>
         <button type="submit" class="button popup__button  popup__button_event_submit">Сохранить</button>
@@ -67,9 +67,9 @@
         <h2 class="popup__title">Новое место</h2>
         <fieldset class="popup__input-container">
 
-          <input type="text" placeholder="Название" required class="popup__item popup__input-container_name" id="imgName"
-            name="imgName">
-          <input type="text" placeholder="Cсылка на картинку" required class="popup__item popup__input-container_link"
+          <input type="text" placeholder="Название" required class="popup__item popup__input-container_name"
+            id="imgName" name="imgName">
+          <input type="url" placeholder="Cсылка на картинку" required class="popup__item popup__input-container_link"
             id="imgLink" name="imgLink">
 
         </fieldset>
@@ -92,25 +92,25 @@
     </div>
   </div>
 
-<template class="templates">
+  <template class="templates">
 
-  <li class = "elements__list-item">
-    <article class="card" aria-label="Место">
+    <li class="elements__list-item">
+      <article class="card" aria-label="Место">
 
-      <button class="button card__popup-button" type="button">
-        <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
-      </button>
+        <button class="button card__popup-button" type="button">
+          <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
+        </button>
 
-      <div class="card__caption">
-        <h2 class="card__text">Карачаево-Черкессия</h2>
-        <button class="button card__like-button" aria-label="Нравится" type="button"></button>
-      </div>
+        <div class="card__caption">
+          <h2 class="card__text">Карачаево-Черкессия</h2>
+          <button class="button card__like-button" aria-label="Нравится" type="button"></button>
+        </div>
 
-      <button class="button card__trash-button" type="button" aria-label="Удалить"></button>
-    </article>
-  </li>
+        <button class="button card__trash-button" type="button" aria-label="Удалить"></button>
+      </article>
+    </li>
 
-</template>
+  </template>
 
   <script src="./scripts/index.js"></script>
 </body>

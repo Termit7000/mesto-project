@@ -8,8 +8,9 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "C:/git/mesto-project/index.html",
-            "webRoot": "${workspaceFolder}"
+            "url": "E:/git/mesto-project/index.html",
+            "webRoot": "${workspaceFolder}",
+
         }
     ]
 }
