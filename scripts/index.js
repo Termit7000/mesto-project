@@ -110,7 +110,7 @@ function createCard(link, name) {
  * @param {Element} место вставки карточки
  */
 function insertCardHTML(card, place) {
-  place.insertAdjacentElement('afterbegin', card);
+  place.prepend(card);
 }
 
 //ОБРАБОТЧИКИ ПРОФИЛЯ
