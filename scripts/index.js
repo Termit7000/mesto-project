@@ -3,10 +3,10 @@
 const profilePopup = document.querySelector('.popup__profile');
 const formProfileEdit = profilePopup.querySelector('.popup__form');
 const buttonCloseProfileEdit = profilePopup.querySelector('.popup__button_event_close');
-const nameInputFormProfile = formProfileEdit.querySelector('.popup__input-container_name');
-const jobInputFormProfile = formProfileEdit.querySelector('.popup__input-container_job');
+const nameInputFormProfile = formProfileEdit.querySelector('.popup__input_name');
+const descriptionInputFormProfile = formProfileEdit.querySelector('.popup__input_description');
 
-const jobProfile = document.querySelector('.profile__text');
+const descriptionProfile = document.querySelector('.profile__text');
 const nameProfile = document.querySelector('.profile__title');
 const buttonEditProfile = document.querySelector('.profile__edit-button');
 
@@ -20,8 +20,8 @@ const buttonCloseImgPopup = imgPopup.querySelector('.popup__button_event_close')
 const buttonAddCard = document.querySelector('.profile__add-button');
 const cardPopup = document.querySelector('.popup__card');
 const cardForm = cardPopup.querySelector('.popup__form');
-const nameImgCardForm = cardForm.querySelector('.popup__input-container_name');
-const linkImgCardForm = cardForm.querySelector('.popup__input-container_link');
+const nameImgCardForm = cardForm.querySelector('.popup__input_img-name');
+const linkImgCardForm = cardForm.querySelector('.popup__input_img-link');
 const buttonCloseCardForm = cardPopup.querySelector('.popup__button_event_close');
 
 const elements = document.querySelector('.elements');
@@ -117,7 +117,7 @@ function insertCardHTML(card, place) {
 
 formProfileEdit.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  jobProfile.textContent = jobInputFormProfile.value;
+  descriptionProfile.textContent = descriptionInputFormProfile.value;
   nameProfile.textContent = nameInputFormProfile.value;
   closePopup(profilePopup);
 });
@@ -126,7 +126,7 @@ buttonCloseProfileEdit.addEventListener('click', () => closePopup(profilePopup))
 
 buttonEditProfile.addEventListener('click', function () {
   nameInputFormProfile.value = nameProfile.textContent;
-  jobInputFormProfile.value = jobProfile.textContent;
+  descriptionInputFormProfile.value = descriptionProfile.textContent;
   openPopup(profilePopup);
 });
 
@@ -151,4 +151,29 @@ cardForm.addEventListener('submit', function (evt) {
 });
 
 buttonCloseCardForm.addEventListener('click', () => closePopup(cardPopup));
+
+/**
+ * Закрытие попапа по клику на оверлею
+ */
+[...document.querySelectorAll('.popup')].forEach(popup => {
+  popup.addEventListener('click', (evt) => {
+    if (evt.target === evt.currentTarget) {
+      closePopup(popup);
+    }
+  });
+});
+
+/**
+ * Закрытьие открытого попапа по ESC
+ */
+document.addEventListener('keydown', (evt) => {
+
+  if (evt.key === "Escape") {
+    const openedPopup = document.querySelector('.popup_opened');
+    if (openedPopup) {
+      closePopup(openedPopup);
+    }
+  }
+});
+
 
