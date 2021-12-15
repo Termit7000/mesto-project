@@ -1,5 +1,11 @@
-import { createCard, insertCardHTML } from './card.js';
-import { enableValidation } from './validate.js';
+import './pages/index.css';
+import './components/card.js';
+import './components/modal.js';
+import './components/profile.js';
+import './components/validate.js';
+
+import { createCard, insertCardHTML } from './components/card.js';
+import { enableValidation } from './components/validate.js';
 
 //ИНИЦИАЛИЗАЦИЯ
 const initialCards = [
@@ -34,3 +40,4 @@ initialCards.forEach(card => {
 });
 
 enableValidation();
+

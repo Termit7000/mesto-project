@@ -8,13 +8,12 @@
   <meta name="keywords" content="HTML5, CSS, javaScript" />
   <meta name="author" content="Иванов Сергей" />
   <title>Место</title>
-  <link rel="stylesheet" href="./pages/index.css" />
 </head>
 
 <body class="page">
 
   <header class="page__header header">
-    <img src="./images/logo.svg" alt="логотип проекта" class="header__logo">
+    <img src="<%=require('./images/logo.svg')%>" alt="логотип проекта" class="header__logo">
   </header>
 
   <main class="page__content">
@@ -27,7 +26,7 @@
         <p class="profile__text">Исследователь океана</p>
       </div>
       <button class="button profile__add-button" aria-label="Добавить фото" type="button">
-        <img src="./images/add-button.svg" alt="" class="profile__button-img">
+        <img src="<%=require('./images/add-button.svg')%>" alt="" class="profile__button-img">
       </button>
     </section>
 
@@ -97,8 +96,8 @@
     <div class="popup__container image-modal">
 
       <figure class="image-modal__content">
-        <img src="./images/karachaevsk.png" alt="Тест" class="image-modal__body">
-        <figcaption class="image-modal__caption">Карачаево-Черкессия</figcaption>
+        <img src="" alt="Тест" class="image-modal__body">
+        <figcaption class="image-modal__caption"></figcaption>
       </figure>
 
       <button class="button popup__button popup__button_event_close" aria-label="Закрыть форму"></button>
@@ -111,7 +110,7 @@
       <article class="card" aria-label="Место">
 
         <button class="button card__popup-button" type="button">
-          <img src="./images/karachaevsk.png" alt="Карачаевск" class="card__img">
+          <img src="" alt="" class="card__img">
         </button>
 
         <div class="card__caption">
@@ -122,17 +121,7 @@
         <button class="button card__trash-button" type="button" aria-label="Удалить"></button>
       </article>
     </li>
-
   </template>
-
-  <script type="module" src="./scripts/index.js"></script>
-  <script type="module" src="./scripts/modal.js"></script>
-  <script type="module" src="./scripts/profile.js"></script>
-  <script type="module" src="./scripts/imgForm.js"></script>
-  <script type="module" src="./scripts/validate.js"></script>
-  <script type="module" src="./scripts/card.js"></script>
-
-
 </body>
 
 </html>
