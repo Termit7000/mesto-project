@@ -46,6 +46,9 @@ const setEventListners = (formElement) => {
       toggleButtonState(inputList, buttonElement);
     });
   });
+
+  formElement.addEventListener('popupOpened', ()=>toggleButtonState(inputList, buttonElement));
+
 }
 
 /**

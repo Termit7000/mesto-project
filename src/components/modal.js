@@ -4,6 +4,7 @@
  */
 export function closePopup(popup) {
   popup.classList.remove('popup_opened');
+  popup.removeEventListener('mousedown', onClickOverlay);
 }
 
 /**
@@ -12,21 +13,32 @@ export function closePopup(popup) {
  */
 export function openPopup(popup) {
   popup.classList.add('popup_opened');
+  notifyPopupOpened(popup);
+  popup.addEventListener('mousedown', onClickOverlay);
 }
 
-
-//ОБРАБОТЧИКИ СОБЫТИЙ
+//ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 
 /**
- * Закрытие попапа по клику на оверлею
+ * Отправляет вложенной форме событие, что попап открыт
+ * @param {Element} popup
  */
-[...document.querySelectorAll('.popup')].forEach(popup => {
-  popup.addEventListener('mousedown', (evt) => {
-    if (evt.target === evt.currentTarget) {
-      closePopup(popup);
-    }
-  });
-});
+function notifyPopupOpened(popup) {
+  const eventPopupOpened = new CustomEvent('popupOpened');
+  const popupForm = popup.querySelector('.popup__form');
+  popupForm?.dispatchEvent(eventPopupOpened);
+};
+
+/**
+ * Обработчик события по клику на оверлею
+ */
+function onClickOverlay(event) {
+  if (event.target === event.currentTarget) {
+    closePopup(event.target);
+  }
+}
+
+//ОБРАБОТЧИКИ СОБЫТИЙ
 
 /**
  * Закрытьие открытого попапа по ESC
