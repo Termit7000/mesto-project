@@ -3,11 +3,19 @@ import '../components/card.js';
 import '../components/modal.js';
 import '../components/profile.js';
 import '../components/validate.js';
+import '../components/api.js';
 
-import { createCard, insertCardHTML } from '../components/card.js';
 import { enableValidation } from '../components/validate.js';
+import {getUser, getCards} from '../components/api.js';
 
 //ИНИЦИАЛИЗАЦИЯ
+getUser();
+getCards();
+
+enableValidation();
+
+//import { createCard, insertCardHTML } from '../components/card.js';
+/*
 const initialCards = [
   {
     name: 'Архыз',
@@ -39,5 +47,6 @@ initialCards.forEach(card => {
   insertCardHTML(createCard(card.link, card.name));
 });
 
-enableValidation();
+*/
+
 

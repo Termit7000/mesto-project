@@ -1,4 +1,5 @@
 import { openPopup, closePopup } from './modal.js';
+import {saveProfileServer} from './api.js';
 
 //ПРОФИЛЬ
 const profilePopup = document.querySelector('.popup__profile');
@@ -10,12 +11,25 @@ const descriptionInputFormProfile = formProfileEdit.querySelector('.popup__input
 const descriptionProfile = document.querySelector('.profile__text');
 const nameProfile = document.querySelector('.profile__title');
 const buttonEditProfile = document.querySelector('.profile__edit-button');
+const profileAvatar = document.querySelector('.profile__avatar');
+const defaultAvatar = profileAvatar.src;
+
+//API
+
+export function setProfile(name, description, avatarURL=defaultAvatar) {
+
+  nameProfile.textContent= name;
+  descriptionProfile.textContent = description;
+  profileAvatar.src = avatarURL;
+
+}
 
 //ОБРАБОТЧИКИ ПРОФИЛЯ
 formProfileEdit.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  descriptionProfile.textContent = descriptionInputFormProfile.value;
-  nameProfile.textContent = nameInputFormProfile.value;
+
+  setProfile(nameInputFormProfile.value, descriptionInputFormProfile.value);
+  saveProfileServer(nameInputFormProfile.value, descriptionInputFormProfile.value);
   closePopup(profilePopup);
 });
 
@@ -26,4 +40,6 @@ buttonEditProfile.addEventListener('click', function () {
   descriptionInputFormProfile.value = descriptionProfile.textContent;
   openPopup(profilePopup);
 });
+
+
 

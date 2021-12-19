@@ -4,9 +4,7 @@
   width: 282px;
   height: 282px;
   border-radius: 10px 10px 0 0;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain;
   background-color: #c4c4c4;
-
+  object-fit: cover;
+  object-position: center;
 }

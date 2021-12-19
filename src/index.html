@@ -19,14 +19,14 @@
   <main class="page__content">
 
     <section class="page__profile profile" aria-label="Описание профиля">
-      <div class="profile__avatar"></div>
+      <img src="<%=require('./images/avatar.jpg')%>"  alt="Аватар" class="profile__avatar">
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button class="button profile__edit-button" aria-label="Редактировать профиль" type="button"></button>
         <p class="profile__text">Исследователь океана</p>
       </div>
       <button class="button profile__add-button" aria-label="Добавить фото" type="button">
-        <img src="<%=require('./images/add-button.svg')%>" alt="" class="profile__button-img">
+
       </button>
     </section>
 

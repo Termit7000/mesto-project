@@ -1,5 +1,6 @@
 import { openImg } from './imgForm.js';
 import { openPopup, closePopup } from './modal.js';
+import {savePictureServer} from './api.js';
 
 //УПРАВЛЕНИЕ КАРТОЧКАМИ
 const buttonAddCard = document.querySelector('.profile__add-button');
@@ -82,7 +83,10 @@ buttonAddCard.addEventListener('click', function () {
 
 cardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  insertCardHTML(createCard(linkImgCardForm.value, nameImgCardForm.value));
+  const nameCard = nameImgCardForm.value;
+  const linkCard = linkImgCardForm.value;
+  insertCardHTML(createCard(linkCard, nameCard));
+  savePictureServer(nameCard,linkCard);
   closePopup(cardPopup);
 });
 
