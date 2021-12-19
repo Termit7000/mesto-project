@@ -52,3 +52,13 @@ document.addEventListener('keydown', (evt) => {
     }
   }
 });
+
+[...document.querySelectorAll('.popup')].forEach(popup=>{
+
+  const buttonClose = popup.querySelector('.popup__button_event_close');
+  if (buttonClose) {
+    buttonClose.addEventListener('click', ()=>closePopup(popup));
+  }
+});
+
+

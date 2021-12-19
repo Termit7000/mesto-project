@@ -4,7 +4,6 @@ import { openPopup, closePopup } from './modal.js';
 const imgPopup = document.querySelector('.popup__img');
 const imgFigure = imgPopup.querySelector('.image-modal__body');
 const captionImg = imgPopup.querySelector('.image-modal__caption');
-const buttonCloseImgPopup = imgPopup.querySelector('.popup__button_event_close');
 
 /**
  * Открывает модальное окно по переданной картинке
@@ -21,6 +20,4 @@ export function openImg(imgSrc, caption) {
 }
 
 //ОБРАБОТЧИКИ МОДАЛЬНОЙ ФОРМЫ КАРТИНКИ
-
-buttonCloseImgPopup.addEventListener('click', () => closePopup(imgPopup));
 
