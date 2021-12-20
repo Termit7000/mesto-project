@@ -24,9 +24,7 @@ export const enableValidation = function ({
   options.inputErrorClass = inputErrorClass;
   options.errorClass = errorClass;
 
-
   [...document.querySelectorAll(formSelector)].forEach(formElement => setEventListners(formElement));
-
 };
 
 //ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ

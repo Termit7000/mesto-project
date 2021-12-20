@@ -3,7 +3,10 @@
   margin-bottom: 41px;
   width: 142px;
   height: 33px;
-  object-fit: contain;
+  background-image: url(../../../images/logo.svg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 @media screen and (max-width: 1280px) {

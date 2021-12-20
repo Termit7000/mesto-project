@@ -1,6 +1,7 @@
 import { openImg } from './imgForm.js';
 import { openPopup, closePopup } from './modal.js';
 import { savePictureServer, deleteCard, likeCardServer, unLikeCardServer } from './api.js';
+import { disableSubmitButton, enableSubmitButton, delay } from './utils.js';
 
 //УПРАВЛЕНИЕ КАРТОЧКАМИ
 const LIKE_BUTTON_CLASS = 'card__like-button_active';
@@ -13,7 +14,8 @@ const BUTTON_TRASH_INACTIVE_CLASS = 'card__trash-button_inactive';
 const CARD_COUNT_SELECTOR = '.card__count-likes';
 
 const buttonAddCard = document.querySelector('.profile__add-button');
-const cardPopup = document.querySelector('.popup__card');
+const cardPopup = document.querySelector('.card-popup');
+const buttonSubmit = cardPopup.querySelector('.popup__button_event_submit');
 const cardForm = cardPopup.querySelector('.popup__form');
 const nameImgCardForm = cardForm.querySelector('.popup__input_img-name');
 const linkImgCardForm = cardForm.querySelector('.popup__input_img-link');
@@ -21,8 +23,8 @@ const linkImgCardForm = cardForm.querySelector('.popup__input_img-link');
 const elements = document.querySelector('.elements');
 const cardTempl = document.querySelector('.templates').content.querySelector('.elements__list-item');
 
-const popupConfirmation = document.querySelector('.popup__confirmation');
-const formConfirmation = popupConfirmation.querySelector('.confirmation__form');
+const popupConfirmation = document.querySelector('.confirmation-popup');
+const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__form');
 
 //ЭКСПОРТНЫЕ ФУНКЦИИ
 
@@ -54,7 +56,7 @@ export function createCard({ cardId = '', cardLink = '', name = '', countLikes =
  * @param {Array} cardList  - список карточек для вставки
  */
 export function renderCardList(cardList) {
-  cardList.forEach(card=>{
+  cardList.forEach(card => {
     insertCardHTML(createCard(card));
   })
 }
@@ -183,11 +185,17 @@ buttonAddCard.addEventListener('click', function () {
 
 cardForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
+  disableSubmitButton(buttonSubmit);
+
   const nameCard = nameImgCardForm.value;
   const linkCard = linkImgCardForm.value;
   savePictureServer(nameCard, linkCard)
     .then(cardProperty => insertCardHTML(createCard(cardProperty)))
-    .finally(() => closePopup(cardPopup));
+    .then(() => delay(1500)) //ИМТИТАЦИЯ ДОЛГОГО СОХРАНЕНИЯ
+    .finally(() => {
+      enableSubmitButton(buttonSubmit);
+      closePopup(cardPopup);
+    });
 });
 
 popupConfirmation.addEventListener('submit', (evt) => {

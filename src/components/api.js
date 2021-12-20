@@ -50,7 +50,7 @@ export function saveProfileServer(name = 'sivanov', about = 'Описание') 
   const URL_SERVICE = '/users/me';
   const bodyRequest = JSON.stringify({ name: name, about: about });
 
-  executeRequest({ url_service: URL_SERVICE, method: 'PATCH', body: bodyRequest });
+  return executeRequest({ url_service: URL_SERVICE, method: 'PATCH', body: bodyRequest });
 }
 
 /**
@@ -157,7 +157,7 @@ function executeRequest({ url_service, method = 'GET', body = '' }) {
       }
       return Promise.reject(`Не удалось выполнить запрос к серверу ${res.statusText}`);
     })
-    .catch(err => alert(err));
+    .catch(err => console.log(err));
 }
 
 /**

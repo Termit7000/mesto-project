@@ -13,17 +13,17 @@
 <body class="page">
 
   <header class="page__header header">
-    <img src="<%=require('./images/logo.svg')%>" alt="логотип проекта" class="header__logo">
+    <div class="header__logo"> </div>
   </header>
 
   <main class="page__content">
 
     <section class="page__profile profile" aria-label="Описание профиля">
-      <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар" class="profile__avatar">
+      <img src="." alt="Аватар" class="profile__avatar">
       <div class="profile__info">
-        <h1 class="profile__title">Жак-Ив Кусто</h1>
+        <h1 class="profile__title" aria-label="Имя пользователя">""</h1>
         <button class="button profile__edit-button" aria-label="Редактировать профиль" type="button"></button>
-        <p class="profile__text">Исследователь океана</p>
+        <p class="profile__text"></p>
       </div>
       <button class="button profile__add-button" aria-label="Добавить фото" type="button">
 
@@ -40,7 +40,7 @@
     <p class="footer__copyright">© 2021 Mesto Russia</p>
   </footer>
 
-  <div class="popup popup__profile">
+  <div class="popup profile-popup">
     <div class="popup__container">
 
       <form name="profile-form" class="popup__form" novalidate>
@@ -68,7 +68,7 @@
     </div>
   </div>
 
-  <div class="popup popup__card">
+  <div class="popup card-popup">
     <div class="popup__container">
 
       <form name="card-form" class="popup__form" novalidate>
@@ -95,11 +95,11 @@
     </div>
   </div>
 
-  <div class="popup popup__img">
-    <div class="popup__container image-modal">
+  <div class="popup img-popup">
+    <div class="popup__container  image-modal">
 
       <figure class="image-modal__content">
-        <img src="" alt="Тест" class="image-modal__body">
+        <img src="." alt="Тест" class="image-modal__body">
         <figcaption class="image-modal__caption"></figcaption>
       </figure>
 
@@ -107,10 +107,10 @@
     </div>
   </div>
 
-  <div class="popup popup__confirmation">
-    <div class="popup__container confirmation">
+  <div class="popup confirmation-popup">
+    <div class="popup__container">
 
-      <form class="popup__form confirmation__form">
+      <form class="popup__form confirmation-popup__form">
         <p class="popup__title">Вы уверены?</p>
         <button class="button popup__button popup__button_event_submit">Да</button>
       </form>
@@ -118,18 +118,18 @@
     </div>
   </div>
 
-  <div class="popup popup__avatar">
-    <div class="popup__container avatar">
+  <div class="popup avatar-popup">
+    <div class="popup__container">
 
-      <form class="popup__form avatar__form">
+      <form class="popup__form">
         <p class="popup__title">Обновить аватар</p>
 
         <fieldset class="popup__input-container">
 
-          <label for="avatar__link" class="popup__input-label">
-            <input type="url" placeholder="Cсылка на картинку" required class="popup__input popup__input_img-link avatar__link"
-              id="avatar__link" name="avatar__link">
-            <span class="popup__input-error" id="avatar__link-error"></span>
+          <label for="avatar-popup__link" class="popup__input-label">
+            <input type="url" placeholder="Cсылка на картинку" required class="popup__input popup__input_img-link avatar-popup__link"
+              id="avatar-popup__link" name="avatar-popup__link">
+            <span class="popup__input-error" id="avatar-popup__link-error"></span>
           </label>
         </fieldset>
 

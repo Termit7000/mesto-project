@@ -1,7 +1,7 @@
 import { openPopup, closePopup } from './modal.js';
 
 //POPUP IMG
-const imgPopup = document.querySelector('.popup__img');
+const imgPopup = document.querySelector('.img-popup');
 const imgFigure = imgPopup.querySelector('.image-modal__body');
 const captionImg = imgPopup.querySelector('.image-modal__caption');
 
