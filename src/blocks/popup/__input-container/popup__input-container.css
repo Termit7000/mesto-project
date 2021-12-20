@@ -1,9 +1,0 @@
-.popup__input-container {
-  margin: 0;
-  padding: 0;
-  padding-bottom: 48px;
-  border: none;
-  display: flex;
-  flex-direction: column;
-  row-gap: 30px;
-}
