@@ -1,9 +1,15 @@
+
+const FORM_SELECTOR = '.popup__form';
+const POPUP_OPENED_CLASS = 'popup_opened';
+const POPUP_OPENED_SELECTOR = '.popup_opened';
+const BUTTON_CLOSE_SELECTOR = '.popup__button_event_close';
+
 /**
  * Закрывает модальное окно
  * @param {Element} popup - Модальное окно
  */
 export function closePopup(popup) {
-  popup.classList.remove('popup_opened');
+  popup.classList.remove(POPUP_OPENED_CLASS);
   popup.removeEventListener('mousedown', onClickOverlay);
 }
 
@@ -12,7 +18,7 @@ export function closePopup(popup) {
  * @param {Element} popup  - Модальное окно
  */
 export function openPopup(popup) {
-  popup.classList.add('popup_opened');
+  popup.classList.add(POPUP_OPENED_CLASS);
   notifyPopupOpened(popup);
   popup.addEventListener('mousedown', onClickOverlay);
 }
@@ -25,7 +31,7 @@ export function openPopup(popup) {
  */
 function notifyPopupOpened(popup) {
   const eventPopupOpened = new CustomEvent('popupOpened');
-  const popupForm = popup.querySelector('.popup__form');
+  const popupForm = popup.querySelector(FORM_SELECTOR);
   popupForm?.dispatchEvent(eventPopupOpened);
 };
 
@@ -46,16 +52,19 @@ function onClickOverlay(event) {
 document.addEventListener('keydown', (evt) => {
 
   if (evt.key === "Escape") {
-    const openedPopup = document.querySelector('.popup_opened');
+    const openedPopup = document.querySelector(POPUP_OPENED_SELECTOR);
     if (openedPopup) {
       closePopup(openedPopup);
     }
   }
 });
 
+/**
+ * Устанавливает всем кнопкам закрытия обработчки по закрытию попапа
+ */
 [...document.querySelectorAll('.popup')].forEach(popup=>{
 
-  const buttonClose = popup.querySelector('.popup__button_event_close');
+  const buttonClose = popup.querySelector(BUTTON_CLOSE_SELECTOR);
   if (buttonClose) {
     buttonClose.addEventListener('click', ()=>closePopup(popup));
   }

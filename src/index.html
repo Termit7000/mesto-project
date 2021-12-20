@@ -81,13 +81,11 @@
             <span class="popup__input-error" id="popup__input_img-name-error"></span>
           </label>
 
-
           <label for="popup__input_img-link" class="popup__input-label">
             <input type="url" placeholder="Cсылка на картинку" required class="popup__input popup__input_img-link"
               id="popup__input_img-link" name="popup__input_img-link">
             <span class="popup__input-error" id="popup__input_img-link-error"></span>
           </label>
-
 
         </fieldset>
         <button type="submit" class="button popup__button popup__button_event_submit">Создать</button>
@@ -115,6 +113,27 @@
       <form class="popup__form confirmation__form">
         <p class="popup__title">Вы уверены?</p>
         <button class="button popup__button popup__button_event_submit">Да</button>
+      </form>
+      <button type="submit" class="button popup__button popup__button_event_close" aria-label="Закрыть форму"></button>
+    </div>
+  </div>
+
+  <div class="popup popup__avatar">
+    <div class="popup__container avatar">
+
+      <form class="popup__form avatar__form">
+        <p class="popup__title">Обновить аватар</p>
+
+        <fieldset class="popup__input-container">
+
+          <label for="avatar__link" class="popup__input-label">
+            <input type="url" placeholder="Cсылка на картинку" required class="popup__input popup__input_img-link avatar__link"
+              id="avatar__link" name="avatar__link">
+            <span class="popup__input-error" id="avatar__link-error"></span>
+          </label>
+        </fieldset>
+
+        <button class="button popup__button popup__button_event_submit">Сохранить</button>
       </form>
       <button type="submit" class="button popup__button popup__button_event_close" aria-label="Закрыть форму"></button>
     </div>

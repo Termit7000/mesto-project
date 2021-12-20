@@ -47,7 +47,10 @@ const setEventListners = (formElement) => {
     });
   });
 
-  formElement.addEventListener('popupOpened', ()=>toggleButtonState(inputList, buttonElement));
+  /**
+   * Отлавливает кастомное событие открытия формы
+   */
+  formElement.addEventListener('popupOpened', () => toggleButtonState(inputList, buttonElement));
 
 }
 

@@ -44,9 +44,19 @@ export function createCard({ cardId = '', cardLink = '', name = '', countLikes =
   setCardImg(card, name, cardLink);
   setLikeContext(card, cardId, liked);
   setCountLikes(card, countLikes);
-  setDeleteContext(card,cardId, isMine)
+  setDeleteContext(card, cardId, isMine)
 
   return card;
+}
+
+/**
+ * Размещает карточки на странице
+ * @param {Array} cardList  - список карточек для вставки
+ */
+export function renderCardList(cardList) {
+  cardList.forEach(card=>{
+    insertCardHTML(createCard(card));
+  })
 }
 
 /**
@@ -89,17 +99,17 @@ function setLikeContext(card, cardId, liked) {
  * @param {String} cardId
  * @param {Boolean} isMine - true если пользователь владелец карточки
  */
-function setDeleteContext(card,cardId, isMine){
+function setDeleteContext(card, cardId, isMine) {
 
-    const trashButton = card.querySelector(BUTTON_TRASH_SELECTOR);
-    if (!isMine) {
-      trashButton.classList.add(BUTTON_TRASH_INACTIVE_CLASS);
-    }
-    trashButton.addEventListener('click', () => {
-      formConfirmation.cardId = cardId;
-      formConfirmation.currentCard = card;
-      openPopup(popupConfirmation);
-    });
+  const trashButton = card.querySelector(BUTTON_TRASH_SELECTOR);
+  if (!isMine) {
+    trashButton.classList.add(BUTTON_TRASH_INACTIVE_CLASS);
+  }
+  trashButton.addEventListener('click', () => {
+    formConfirmation.cardId = cardId;
+    formConfirmation.currentCard = card;
+    openPopup(popupConfirmation);
+  });
 }
 
 /**
@@ -146,7 +156,7 @@ function cardIsLiked(likeButton) {
 /**
  * Переключает лайк на карточке с обновлением на сервере
  * @param {Element} likeButton - кнопка like карточки места
- * @param {*} cardId - ID карточки места
+ * @param {String} cardId - ID карточки места
  */
 function toggleikeStatus(card, likeButton, cardId) {
 
