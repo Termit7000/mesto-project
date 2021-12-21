@@ -24,10 +24,7 @@ const setEventListners = (formElement, options) => {
   /**
    * Отлавливает кастомное событие открытия формы
    */
-  formElement.addEventListener('formOpened', () => {
-    inputList.forEach(inputElement => checkValidation(formElement, inputElement, options));
-    toggleButtonState(inputList, buttonElement, options);
-  });
+  formElement.addEventListener('formOpened', () => toggleButtonState(inputList, buttonElement, options));
 }
 
 /**

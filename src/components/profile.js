@@ -1,6 +1,7 @@
 import { openPopup, closePopup } from './modal.js';
 import { saveProfileServer, updateAvatarServer } from './api.js';
 import { renderLoading, setDefaultText, notifyFormOpened } from './utils.js';
+import { userId } from '../pages/index.js';
 
 //ПРОФИЛЬ
 const popupPrifle = document.querySelector('.profile-popup');
@@ -21,13 +22,10 @@ const buttonEditProfile = document.querySelector('.profile__edit-button');
 const avatarProfile = document.querySelector('.profile__avatar');
 
 //API
-export function setProfile(name, description, avatarURL = "") {
+export function setProfile({ name, about, avatar }) {
   nameProfile.textContent = name;
-  descriptionProfile.textContent = description;
-
-  if (avatarURL) {
-    avatarProfile.src = avatarURL;
-  }
+  descriptionProfile.textContent = about;
+  avatarProfile.src = avatar;
 }
 
 //ОБРАБОТЧИКИ ПРОФИЛЯ
@@ -37,12 +35,12 @@ formProfile.addEventListener('submit', (evt) => {
   renderLoading(buttonSubmit);
 
   saveProfileServer(inputNameProfile.value, inputDescriptionProfile.value)
-    .then(() => {
-      setProfile(inputNameProfile.value, inputDescriptionProfile.value);
+    .then((data) => {
+      setProfile(data);
       closePopup(popupPrifle);
     })
-    .catch((error)=>console.log(error))
-    .finally(()=> setDefaultText(buttonSubmit));
+    .catch((error) => console.log(error))
+    .finally(() => setDefaultText(buttonSubmit));
 
 });
 
@@ -74,11 +72,11 @@ popupAvatar.addEventListener('submit', (evt) => {
 
   updateAvatarServer(inputLinkAvatar.value)
     .then((data) => {
-      avatarProfile.src = data.avatar;
+      setProfile(data);
       closePopup(popupAvatar);
     })
-    .catch((error)=>console.log(error))
-    .finally(()=> setDefaultText(buttonSubmitAvatar));
+    .catch((error) => console.log(error))
+    .finally(() => setDefaultText(buttonSubmitAvatar));
 });
 
 

@@ -207,13 +207,11 @@ formCard.addEventListener('submit', function (evt) {
     .then(card => {
       renderCardList([card]);
       closePopup(popupCard);
-    })
-    .catch((error) => console.log(error))
-    .finally(() => {
       inputImgName.value = "";
       inputLink.value = "";
-      setDefaultText(buttonSubmit);
-    });
+    })
+    .catch((error) => console.log(error))
+    .finally(() => setDefaultText(buttonSubmit));
 });
 
 popupConfirmation.addEventListener('submit', (evt) => {

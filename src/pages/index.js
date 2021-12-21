@@ -17,9 +17,8 @@ Promise.all([getUser(), getCards()])
   .then(([userData, cards])=>{
 
     //ДАННЫЕ ПРОФИЛЯ
-    const { _id, name, about, avatar } = userData;
-    userId = _id;
-    setProfile(name, about, avatar);
+    userId = userData._id;
+    setProfile(userData);
 
     //КАРТОЧКИ МЕСТ
     renderCardList(cards);
