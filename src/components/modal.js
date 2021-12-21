@@ -1,8 +1,4 @@
-
-const FORM_SELECTOR = '.popup__form';
-const POPUP_OPENED_CLASS = 'popup_opened';
-const POPUP_OPENED_SELECTOR = '.popup_opened';
-const BUTTON_CLOSE_SELECTOR = '.popup__button_event_close';
+import { POPUP_OPENED_CLASS, POPUP_OPENED_SELECTOR, CLOSE_CLASS } from './utils/constants.js';
 
 /**
  * Закрывает модальное окно
@@ -10,7 +6,7 @@ const BUTTON_CLOSE_SELECTOR = '.popup__button_event_close';
  */
 export function closePopup(popup) {
   popup.classList.remove(POPUP_OPENED_CLASS);
-  popup.removeEventListener('mousedown', onClickOverlay);
+  document.removeEventListener('keydown', closeByEscape);
 }
 
 /**
@@ -19,55 +15,40 @@ export function closePopup(popup) {
  */
 export function openPopup(popup) {
   popup.classList.add(POPUP_OPENED_CLASS);
-  notifyPopupOpened(popup);
-  popup.addEventListener('mousedown', onClickOverlay);
+  document.addEventListener('keydown', closeByEscape);
 }
 
 //ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
 
 /**
- * Отправляет вложенной форме событие, что попап открыт
- * @param {Element} popup
+ * Закрывает открытый попап по Esc
+ * @param {Event} evt
  */
-function notifyPopupOpened(popup) {
-  const eventPopupOpened = new CustomEvent('popupOpened');
-  const popupForm = popup.querySelector(FORM_SELECTOR);
-  popupForm?.dispatchEvent(eventPopupOpened);
-};
-
-/**
- * Обработчик события по клику на оверлею
- */
-function onClickOverlay(event) {
-  if (event.target === event.currentTarget) {
-    closePopup(event.target);
+function closeByEscape(event) {
+  if (event.key === 'Escape') {
+    const openedPopup = document.querySelector(POPUP_OPENED_SELECTOR);
+    closePopup(openedPopup);
   }
 }
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
 
 /**
- * Закрытьие открытого попапа по ESC
- */
-document.addEventListener('keydown', (evt) => {
-
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(POPUP_OPENED_SELECTOR);
-    if (openedPopup) {
-      closePopup(openedPopup);
-    }
-  }
-});
-
-/**
  * Устанавливает всем кнопкам закрытия обработчки по закрытию попапа
+ * я понял, что здесь предлагается отлавливать всплывающее событие от кнопки на попапе. Спасибо!
  */
-[...document.querySelectorAll('.popup')].forEach(popup=>{
+document.querySelectorAll('.popup').forEach(popup=>{
 
-  const buttonClose = popup.querySelector(BUTTON_CLOSE_SELECTOR);
-  if (buttonClose) {
-    buttonClose.addEventListener('click', ()=>closePopup(popup));
-  }
+  popup.addEventListener('click', event=>{
+
+    if (event.target.classList.contains(POPUP_OPENED_CLASS)) {
+      closePopup(popup);
+    }
+
+    if (event.target.classList.contains(CLOSE_CLASS)) {
+      closePopup(popup);
+    }
+  });
 });
 
 

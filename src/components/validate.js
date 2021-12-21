@@ -1,30 +1,6 @@
-const options = {
-  formSelector: '',
-  inputSelector: '',
-  submitButtonSelector: '',
-  inactiveButtonClass: '',
-  inputErrorClass: '',
-  errorClass: ''
-};
-
 //ЭКСПОРТНЫЕ ФУНКЦИИ
-export const enableValidation = function ({
-  formSelector = '.popup__form',
-  inputSelector = '.popup__input',
-  submitButtonSelector = '.popup__button_event_submit',
-  inactiveButtonClass = 'popup__button_inactive',
-  inputErrorClass = 'popup__input_type_error',
-  errorClass = 'popup__input-error_active'
-} = {}) {
-
-  options.formSelector = formSelector;
-  options.inputSelector = inputSelector;
-  options.submitButtonSelector = submitButtonSelector;
-  options.inactiveButtonClass = inactiveButtonClass;
-  options.inputErrorClass = inputErrorClass;
-  options.errorClass = errorClass;
-
-  [...document.querySelectorAll(formSelector)].forEach(formElement => setEventListners(formElement));
+export const enableValidation = function (options) {
+  document.querySelectorAll(options.formSelector).forEach(formElement => setEventListners(formElement, options));
 };
 
 //ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
@@ -33,34 +9,36 @@ export const enableValidation = function ({
  * Устанавливает проверку валидации для всех полей ввода формы
  * @param {Element} formElement
  */
-const setEventListners = (formElement) => {
+const setEventListners = (formElement, options) => {
   const inputList = [...formElement.querySelectorAll(options.inputSelector)];
   const buttonElement = formElement.querySelector(options.submitButtonSelector);
-  toggleButtonState(inputList, buttonElement);
+  toggleButtonState(inputList, buttonElement, options);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
-      checkValidation(inputElement);
-      toggleButtonState(inputList, buttonElement);
+      checkValidation(formElement, inputElement, options);
+      toggleButtonState(inputList, buttonElement, options);
     });
   });
 
   /**
    * Отлавливает кастомное событие открытия формы
    */
-  formElement.addEventListener('popupOpened', () => toggleButtonState(inputList, buttonElement));
-
+  formElement.addEventListener('formOpened', () => {
+    inputList.forEach(inputElement => checkValidation(formElement, inputElement, options));
+    toggleButtonState(inputList, buttonElement, options);
+  });
 }
 
 /**
  *
  * @param {Element} inputElement
  */
-const checkValidation = (inputElement) => {
+const checkValidation = (formElement, inputElement, options) => {
   if (inputElement.validity.valid) {
-    hideError(inputElement);
+    hideError(formElement, inputElement, options);
   } else {
-    showError(inputElement, inputElement.validationMessage);
+    showError(formElement, inputElement, inputElement.validationMessage, options);
   }
 };
 
@@ -68,8 +46,8 @@ const checkValidation = (inputElement) => {
  * Отображает ошибку ввода
  * @param {Element} inputElement
  */
-const showError = (inputElement, errorMassage) => {
-  const inputErrorLabel = getErrorLabel(inputElement);
+const showError = (formElement, inputElement, errorMassage, options) => {
+  const inputErrorLabel = getErrorLabel(formElement, inputElement);
   inputElement.classList.add(options.inputErrorClass);
   inputErrorLabel.classList.add(options.errorClass);
   inputErrorLabel.textContent = errorMassage;
@@ -79,8 +57,8 @@ const showError = (inputElement, errorMassage) => {
  * Скрывает ошибку ввода
  * @param {Element} inputElement
  */
-const hideError = (inputElement) => {
-  const inputErrorLabel = getErrorLabel(inputElement);
+const hideError = (formElement, inputElement, options) => {
+  const inputErrorLabel = getErrorLabel(formElement, inputElement);
   inputElement.classList.remove(options.inputErrorClass);
   inputErrorLabel.classList.remove(options.errorClass);
 };
@@ -90,11 +68,11 @@ const hideError = (inputElement) => {
  * @param {Element} inputElement
  * @returns
  */
-const getErrorLabel = (inputElement) => {
+const getErrorLabel = (formElement, inputElement) => {
 
   let errorLabel = inputElement.errorLabel;
   if (!errorLabel) {
-    errorLabel = inputElement.closest('.popup__input-label').querySelector(`#${inputElement.id}-error`);
+    errorLabel = formElement.querySelector(`#${inputElement.id}-error`);
     inputElement.errorLabel = errorLabel;
   }
 
@@ -115,7 +93,7 @@ const allInputValid = (inputList) => {
  * @param {Array} inputList
  * @param {Element} buttonElement
  */
-const toggleButtonState = (inputList, buttonElement) => {
+const toggleButtonState = (inputList, buttonElement, options) => {
 
   if (allInputValid(inputList)) {
     buttonElement.classList.remove(options.inactiveButtonClass);

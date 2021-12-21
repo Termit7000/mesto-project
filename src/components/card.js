@@ -1,24 +1,18 @@
 import { openImg } from './imgForm.js';
 import { openPopup, closePopup } from './modal.js';
-import { savePictureServer, deleteCard, likeCardServer, unLikeCardServer } from './api.js';
-import { disableSubmitButton, enableSubmitButton, delay } from './utils.js';
+import { savePictureServer, deleteCardServer, likeCardServer, unLikeCardServer } from './api.js';
+import { renderLoading, setDefaultText, notifyFormOpened } from './utils.js';
+import { userId } from '../pages/index.js'
+import { LIKE_CLASS } from './utils/constants.js';
 
 //УПРАВЛЕНИЕ КАРТОЧКАМИ
-const LIKE_BUTTON_CLASS = 'card__like-button_active';
-const LIKE_BUTTON_SELECTOR = '.card__like-button';
-const IMG_SELECTOR = '.card__img';
-const CARD_NAME_SELECTOR = '.card__text';
-const IMG_POPUP_BUTTON_SELECTOR = '.card__popup-button';
-const BUTTON_TRASH_SELECTOR = '.card__trash-button';
-const BUTTON_TRASH_INACTIVE_CLASS = 'card__trash-button_inactive';
-const CARD_COUNT_SELECTOR = '.card__count-likes';
 
 const buttonAddCard = document.querySelector('.profile__add-button');
-const cardPopup = document.querySelector('.card-popup');
-const buttonSubmit = cardPopup.querySelector('.popup__button_event_submit');
-const cardForm = cardPopup.querySelector('.popup__form');
-const nameImgCardForm = cardForm.querySelector('.popup__input_img-name');
-const linkImgCardForm = cardForm.querySelector('.popup__input_img-link');
+const popupCard = document.querySelector('.card-popup');
+const buttonSubmit = popupCard.querySelector('.popup__button_event_submit');
+const formCard = popupCard.querySelector('.popup__form');
+const inputImgName = formCard.querySelector('.popup__input_img-name');
+const inputLink = formCard.querySelector('.popup__input_img-link');
 
 const elements = document.querySelector('.elements');
 const cardTempl = document.querySelector('.templates').content.querySelector('.elements__list-item');
@@ -53,11 +47,12 @@ export function createCard({ cardId = '', cardLink = '', name = '', countLikes =
 
 /**
  * Размещает карточки на странице
- * @param {Array} cardList  - список карточек для вставки
+ * @param {Array} cardList  - список карточек JSON для вставки
  */
 export function renderCardList(cardList) {
-  cardList.forEach(card => {
-    insertCardHTML(createCard(card));
+  cardList.forEach(cardJson => {
+    const cardProperties = getCardPropertyFromResponse(cardJson);
+    insertCardHTML(createCard(cardProperties));
   })
 }
 
@@ -88,9 +83,9 @@ function removeCard(card) {
  */
 function setLikeContext(card, cardId, liked) {
 
-  const likeButton = card.querySelector(LIKE_BUTTON_SELECTOR);
+  const likeButton = card.querySelector('.card__like-button');
   likeButton.addEventListener('click', () => {
-    toggleikeStatus(card, likeButton, cardId);
+    toggleLikeStatus(card, likeButton, cardId);
   });
   updateLikeStatus(likeButton, liked);
 }
@@ -103,9 +98,9 @@ function setLikeContext(card, cardId, liked) {
  */
 function setDeleteContext(card, cardId, isMine) {
 
-  const trashButton = card.querySelector(BUTTON_TRASH_SELECTOR);
+  const trashButton = card.querySelector('.card__trash-button');
   if (!isMine) {
-    trashButton.classList.add(BUTTON_TRASH_INACTIVE_CLASS);
+    trashButton.classList.add('card__trash-button_inactive');
   }
   trashButton.addEventListener('click', () => {
     formConfirmation.cardId = cardId;
@@ -122,14 +117,14 @@ function setDeleteContext(card, cardId, isMine) {
  */
 function setCardImg(card, cardName, cardLink) {
 
-  const img = card.querySelector(IMG_SELECTOR);
+  const img = card.querySelector('.card__img');
   img.src = cardLink;
   img.alt = cardName;
 
-  card.querySelector(CARD_NAME_SELECTOR).textContent = cardName;
+  card.querySelector('.card__text').textContent = cardName;
 
   //POPUP IMG
-  const popupButton = card.querySelector(IMG_POPUP_BUTTON_SELECTOR);
+  const popupButton = card.querySelector('.card__popup-button');
   popupButton.addEventListener('click', () => openImg(cardLink, cardName));
 }
 
@@ -140,9 +135,9 @@ function setCardImg(card, cardName, cardLink) {
  */
 function updateLikeStatus(likeButton, liked = false) {
   if (liked) {
-    likeButton.classList.add(LIKE_BUTTON_CLASS);
+    likeButton.classList.add(LIKE_CLASS);
   } else {
-    likeButton.classList.remove(LIKE_BUTTON_CLASS);
+    likeButton.classList.remove(LIKE_CLASS);
   }
 }
 
@@ -152,7 +147,7 @@ function updateLikeStatus(likeButton, liked = false) {
  * @returns true - если карточка лайкнута
  */
 function cardIsLiked(likeButton) {
-  return likeButton.classList.contains(LIKE_BUTTON_CLASS);
+  return likeButton.classList.contains(LIKE_CLASS);
 }
 
 /**
@@ -160,41 +155,64 @@ function cardIsLiked(likeButton) {
  * @param {Element} likeButton - кнопка like карточки места
  * @param {String} cardId - ID карточки места
  */
-function toggleikeStatus(card, likeButton, cardId) {
+function toggleLikeStatus(card, likeButton, cardId) {
 
   const handleLike = cardIsLiked(likeButton) ? unLikeCardServer : likeCardServer;
 
   handleLike(cardId)
-    .then(cardProperty => {
-      updateLikeStatus(likeButton, cardProperty.liked);
-      setCountLikes(card, cardProperty.countLikes);
-    });
+    .then(cardResponse => {
+      const cardProperies = getCardPropertyFromResponse(cardResponse);
+      updateLikeStatus(likeButton, cardProperies.liked);
+      setCountLikes(card, cardProperies.countLikes);
+    })
+    .catch((error) => console.log(error));
 }
 
 function setCountLikes(card, countLikes = 0) {
-  card.querySelector(CARD_COUNT_SELECTOR).textContent = countLikes;
+  card.querySelector('.card__count-likes').textContent = countLikes;
+}
+
+/**
+ *
+ * @param {JSON} cardJson  - JSON-ответ сервера, содержащий данные карточки
+ * @returns Object - со свойствами полученной карточки
+ */
+function getCardPropertyFromResponse(cardJson) {
+
+  const cardProperties = {
+    cardId: cardJson._id,
+    cardLink: cardJson.link,
+    name: cardJson.name,
+    countLikes: cardJson.likes.length,
+    isMine: cardJson.owner._id === userId,
+    liked: Boolean(cardJson.likes.find(el => el._id === userId))
+  };
+  return cardProperties;
 }
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
 
 buttonAddCard.addEventListener('click', function () {
-  nameImgCardForm.value = "";
-  linkImgCardForm.value = "";
-  openPopup(cardPopup);
+  notifyFormOpened(formCard);
+  openPopup(popupCard);
 });
 
-cardForm.addEventListener('submit', function (evt) {
+formCard.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  disableSubmitButton(buttonSubmit);
+  renderLoading(buttonSubmit);
 
-  const nameCard = nameImgCardForm.value;
-  const linkCard = linkImgCardForm.value;
+  const nameCard = inputImgName.value;
+  const linkCard = inputLink.value;
   savePictureServer(nameCard, linkCard)
-    .then(cardProperty => insertCardHTML(createCard(cardProperty)))
-    .then(() => delay(1500)) //ИМТИТАЦИЯ ДОЛГОГО СОХРАНЕНИЯ
+    .then(card => {
+      renderCardList([card]);
+      closePopup(popupCard);
+    })
+    .catch((error) => console.log(error))
     .finally(() => {
-      enableSubmitButton(buttonSubmit);
-      closePopup(cardPopup);
+      inputImgName.value = "";
+      inputLink.value = "";
+      setDefaultText(buttonSubmit);
     });
 });
 
@@ -207,7 +225,10 @@ popupConfirmation.addEventListener('submit', (evt) => {
   }
 
   const currentCard = evt.target.currentCard;
-  deleteCard(evt.target.cardId)
-    .then(() => removeCard(currentCard))
-    .finally(() => closePopup(popupConfirmation));
+  deleteCardServer(evt.target.cardId)
+    .then(() => {
+      removeCard(currentCard);
+      closePopup(popupConfirmation);
+    })
+    .catch((error) => console.log(error));
 });

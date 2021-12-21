@@ -1,46 +1,48 @@
 import { openPopup, closePopup } from './modal.js';
-import { saveProfileServer, updateAvatar } from './api.js';
-import { disableSubmitButton, enableSubmitButton, delay } from './utils.js';
+import { saveProfileServer, updateAvatarServer } from './api.js';
+import { renderLoading, setDefaultText, notifyFormOpened } from './utils.js';
 
 //ПРОФИЛЬ
-const profilePopup = document.querySelector('.profile-popup');
-const buttonSubmit = profilePopup.querySelector('.popup__button_event_submit');
-const formProfileEdit = profilePopup.querySelector('.popup__form');
-const nameInputFormProfile = formProfileEdit.querySelector('.popup__input_name');
-const descriptionInputFormProfile = formProfileEdit.querySelector('.popup__input_description');
+const popupPrifle = document.querySelector('.profile-popup');
+const buttonSubmit = popupPrifle.querySelector('.popup__button_event_submit');
+const formProfile = popupPrifle.querySelector('.popup__form');
+const inputNameProfile = formProfile.querySelector('.popup__input_name');
+const inputDescriptionProfile = formProfile.querySelector('.popup__input_description');
 
-const avatarPopup = document.querySelector('.avatar-popup');
-const avatarInput = avatarPopup.querySelector('.avatar-popup__link');
-const buttonSubmitAvatar = avatarPopup.querySelector('.popup__button_event_submit');
+const popupAvatar = document.querySelector('.avatar-popup');
+const formAvatar = popupAvatar.querySelector('.popup__form');
+const inputLinkAvatar = popupAvatar.querySelector('.avatar-popup__link');
+const buttonSubmitAvatar = popupAvatar.querySelector('.popup__button_event_submit');
 
 
 const descriptionProfile = document.querySelector('.profile__text');
 const nameProfile = document.querySelector('.profile__title');
 const buttonEditProfile = document.querySelector('.profile__edit-button');
-const profileAvatar = document.querySelector('.profile__avatar');
-let defaultAvatar = profileAvatar.src;
+const avatarProfile = document.querySelector('.profile__avatar');
 
 //API
-export function setProfile(name, description, avatarURL = defaultAvatar) {
+export function setProfile(name, description, avatarURL = "") {
   nameProfile.textContent = name;
   descriptionProfile.textContent = description;
-  profileAvatar.src = avatarURL;
-  defaultAvatar = avatarURL;
+
+  if (avatarURL) {
+    avatarProfile.src = avatarURL;
+  }
 }
 
 //ОБРАБОТЧИКИ ПРОФИЛЯ
-formProfileEdit.addEventListener('submit', (evt) => {
+formProfile.addEventListener('submit', (evt) => {
   evt.preventDefault();
 
-  disableSubmitButton(buttonSubmit);
+  renderLoading(buttonSubmit);
 
-  saveProfileServer(nameInputFormProfile.value, descriptionInputFormProfile.value)
-    .then(() => delay(1500)) //ИМТИТАЦИЯ ДОЛГОГО СОХРАНЕНИЯ
-    .finally(() => {
-      setProfile(nameInputFormProfile.value, descriptionInputFormProfile.value);
-      enableSubmitButton(buttonSubmit);
-      closePopup(profilePopup);
-    });
+  saveProfileServer(inputNameProfile.value, inputDescriptionProfile.value)
+    .then(() => {
+      setProfile(inputNameProfile.value, inputDescriptionProfile.value);
+      closePopup(popupPrifle);
+    })
+    .catch((error)=>console.log(error))
+    .finally(()=> setDefaultText(buttonSubmit));
 
 });
 
@@ -48,34 +50,35 @@ formProfileEdit.addEventListener('submit', (evt) => {
  * Открытие формы обновления профиля
  */
 buttonEditProfile.addEventListener('click', () => {
-  nameInputFormProfile.value = nameProfile.textContent;
-  descriptionInputFormProfile.value = descriptionProfile.textContent;
-  openPopup(profilePopup);
+  inputNameProfile.value = nameProfile.textContent;
+  inputDescriptionProfile.value = descriptionProfile.textContent;
+
+  openPopup(popupPrifle);
+  notifyFormOpened(formProfile);
 });
 
 /**
  * Редактирование аватара
  */
-profileAvatar.addEventListener('click', (evt) => {
-  avatarInput.value = defaultAvatar;
-  openPopup(avatarPopup);
+avatarProfile.addEventListener('click', (evt) => {
+  notifyFormOpened(formAvatar);
+  openPopup(popupAvatar);
 });
 
 /**
  * Обновление аватара
  */
-avatarPopup.addEventListener('submit', (evt) => {
+popupAvatar.addEventListener('submit', (evt) => {
   evt.preventDefault();
-  disableSubmitButton(buttonSubmitAvatar);
+  renderLoading(buttonSubmitAvatar);
 
-  updateAvatar(avatarInput.value)
-    .then(() => delay(1500)) //ИМТИТАЦИЯ ДОЛГОГО СОХРАНЕНИЯ
-    .finally(() => {
-      defaultAvatar = avatarInput.value;
-      profileAvatar.src = avatarInput.value;
-      enableSubmitButton(buttonSubmit);
-      closePopup(avatarPopup);
-    });
+  updateAvatarServer(inputLinkAvatar.value)
+    .then((data) => {
+      avatarProfile.src = data.avatar;
+      closePopup(popupAvatar);
+    })
+    .catch((error)=>console.log(error))
+    .finally(()=> setDefaultText(buttonSubmitAvatar));
 });
 
 

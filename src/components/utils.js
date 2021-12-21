@@ -1,9 +1,8 @@
-
 /**
  * Заменяет название кнопки при сохранениии
  * @param {Element} buttonSubmit
  */
-export function disableSubmitButton(buttonSubmit) {
+export function renderLoading(buttonSubmit) {
   buttonSubmit.setAttribute('disabled', true);
   buttonSubmit.initValue = buttonSubmit.textContent;
   buttonSubmit.textContent = 'Сохранение...';
@@ -13,21 +12,16 @@ export function disableSubmitButton(buttonSubmit) {
  * Восстанавливает значение кнопки после сохранения
  * @param {Element} buttonSubmit
  */
-export function enableSubmitButton(buttonSubmit) {
+export function setDefaultText(buttonSubmit) {
   buttonSubmit.removeAttribute('disabled');
   buttonSubmit.textContent = buttonSubmit.initValue;
 }
 
-
 /**
- * Задержка в выполнении промиса, для имитации долгого сохранения
- * @param {Number} ms
- * @returns
+ * Отправляет переданной форме, событие открытие
+ * @param {Element} popup
  */
-export function delay(ms) {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, ms)
-  });
-}
+export function notifyFormOpened(formElement) {
+  const evenFormOpened = new CustomEvent('formOpened');
+  formElement.dispatchEvent(evenFormOpened);
+};

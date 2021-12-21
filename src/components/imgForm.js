@@ -1,4 +1,4 @@
-import { openPopup, closePopup } from './modal.js';
+import { openPopup } from './modal.js';
 
 //POPUP IMG
 const imgPopup = document.querySelector('.img-popup');
@@ -18,6 +18,3 @@ export function openImg(imgSrc, caption) {
 
   openPopup(imgPopup);
 }
-
-//ОБРАБОТЧИКИ МОДАЛЬНОЙ ФОРМЫ КАРТИНКИ
-
