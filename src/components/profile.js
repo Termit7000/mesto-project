@@ -1,9 +1,11 @@
 import { openPopup, closePopup } from './modal.js';
-import { saveProfileServer, updateAvatarServer } from './api.js';
+import Api from './Api.js';
 import { renderLoading, setDefaultText, notifyFormOpened } from './utils.js';
 import { userId } from '../pages/index.js';
 
 //ПРОФИЛЬ
+
+const api = new Api();
 const popupPrifle = document.querySelector('.profile-popup');
 const buttonSubmit = popupPrifle.querySelector('.popup__button_event_submit');
 const formProfile = popupPrifle.querySelector('.popup__form');
@@ -34,7 +36,7 @@ formProfile.addEventListener('submit', (evt) => {
 
   renderLoading(buttonSubmit);
 
-  saveProfileServer(inputNameProfile.value, inputDescriptionProfile.value)
+  api.saveProfileServer(inputNameProfile.value, inputDescriptionProfile.value)
     .then((data) => {
       setProfile(data);
       closePopup(popupPrifle);
@@ -70,7 +72,7 @@ popupAvatar.addEventListener('submit', (evt) => {
   evt.preventDefault();
   renderLoading(buttonSubmitAvatar);
 
-  updateAvatarServer(inputLinkAvatar.value)
+  api.updateAvatarServer(inputLinkAvatar.value)
     .then((data) => {
       setProfile(data);
       closePopup(popupAvatar);

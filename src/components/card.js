@@ -1,11 +1,13 @@
 import { openImg } from './imgForm.js';
 import { openPopup, closePopup } from './modal.js';
-import { savePictureServer, deleteCardServer, likeCardServer, unLikeCardServer } from './api.js';
+import Api from './Api.js';
 import { renderLoading, setDefaultText, notifyFormOpened } from './utils.js';
 import { userId } from '../pages/index.js'
 import { LIKE_CLASS } from './utils/constants.js';
 
 //УПРАВЛЕНИЕ КАРТОЧКАМИ
+
+const api = new Api();
 
 const buttonAddCard = document.querySelector('.profile__add-button');
 const popupCard = document.querySelector('.card-popup');
@@ -157,7 +159,7 @@ function cardIsLiked(likeButton) {
  */
 function toggleLikeStatus(card, likeButton, cardId) {
 
-  const handleLike = cardIsLiked(likeButton) ? unLikeCardServer : likeCardServer;
+  const handleLike = cardIsLiked(likeButton) ? api.unLikeCardServer.bind(api) : api.likeCardServer.bind(api);
 
   handleLike(cardId)
     .then(cardResponse => {
@@ -203,7 +205,7 @@ formCard.addEventListener('submit', function (evt) {
 
   const nameCard = inputImgName.value;
   const linkCard = inputLink.value;
-  savePictureServer(nameCard, linkCard)
+  api.savePictureServer(nameCard, linkCard)
     .then(card => {
       renderCardList([card]);
       closePopup(popupCard);
@@ -223,7 +225,7 @@ popupConfirmation.addEventListener('submit', (evt) => {
   }
 
   const currentCard = evt.target.currentCard;
-  deleteCardServer(evt.target.cardId)
+  api.deleteCardServer(evt.target.cardId)
     .then(() => {
       removeCard(currentCard);
       closePopup(popupConfirmation);

@@ -3,17 +3,19 @@ import '../components/card.js';
 import '../components/modal.js';
 import '../components/profile.js';
 import '../components/validate.js';
-import '../components/api.js';
+import '../components/Api.js';
 
 import {enableValidation } from '../components/validate.js';
-import {getUser, getCards} from '../components/api.js';
+import Api from  '../components/Api.js';
 import {setProfile} from '../components/profile.js';
 import {renderCardList } from '../components/card.js';
 
 export let userId;
 
+const api = new Api();
+
 //ИНИЦИАЛИЗАЦИЯ
-Promise.all([getUser(), getCards()])
+Promise.all([api.getUser(), api.getCards()])
   .then(([userData, cards])=>{
 
     //ДАННЫЕ ПРОФИЛЯ
