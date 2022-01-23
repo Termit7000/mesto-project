@@ -1,5 +1,5 @@
 import './index.css';
-import '../components/card.js';
+import '../components/Card.js';
 import '../components/modal.js';
 import '../components/profile.js';
 import '../components/validate.js';
@@ -8,7 +8,7 @@ import '../components/Api.js';
 import {enableValidation } from '../components/validate.js';
 import Api from  '../components/Api.js';
 import {setProfile} from '../components/profile.js';
-import {renderCardList } from '../components/card.js';
+import {renderCardList } from '../components/Card.js';
 
 export let userId;
 
