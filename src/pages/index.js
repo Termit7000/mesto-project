@@ -5,10 +5,11 @@ import '../components/profile.js';
 import '../components/FormValidator.js';
 import '../components/Api.js';
 
-import FormValidator, { enableValidation } from '../components/FormValidator.js';
 import Api from '../components/Api.js';
+import Card from '../components/Сard.js';
+import FormValidator from '../components/FormValidator.js';
 import { setProfile } from '../components/profile.js';
-import { renderCardList } from '../components/Сard.js';
+import Section from '../components/Section';
 
 export let userId;
 
@@ -23,7 +24,16 @@ Promise.all([api.getUser(), api.getCards()])
     setProfile(userData);
 
     //КАРТОЧКИ МЕСТ
-    renderCardList(cards);
+    const section = new Section({
+      items: cards,
+      renderer: (cardJson) => {
+        const card = new Card({ data: cardJson }, '.elements__list-item');
+        const cardElement = card.generate();
+        section.addItem(cardElement);
+      }
+    }, '.elements');
+
+    section.renderItems();
 
     //ПОДКЛЮЧЕНИЕ ВАЛИДАЦИИ
     const options = {
@@ -42,7 +52,3 @@ Promise.all([api.getUser(), api.getCards()])
 
   })
   .catch(err => console.log(`Не удалось связаться с сервером ${err}`));
-
-
-
-

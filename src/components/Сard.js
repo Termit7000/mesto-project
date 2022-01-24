@@ -24,18 +24,6 @@ const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__f
 //ЭКСПОРТНЫЕ ФУНКЦИИ
 
 /**
- * Размещает карточки на странице
- * @param {Array} cardList  - список карточек JSON для вставки
- */
-export function renderCardList(cardList) {
-  cardList.forEach(cardJson => {
-    const card = new Card({data: cardJson}, '.elements__list-item');
-    const cardElement = card.generate();
-    insertCardHTML(cardElement);
-  })
-}
-
-/**
  * Добавляет карточку места в HTML
  * @param {Element} card
  * @param {Element} место вставки карточки
