@@ -1,14 +1,14 @@
 import './index.css';
-import '../components/Card.js';
+import '../components/Сard.js';
 import '../components/modal.js';
 import '../components/profile.js';
-import '../components/validate.js';
+import '../components/FormValidator.js';
 import '../components/Api.js';
 
-import {enableValidation } from '../components/validate.js';
-import Api from  '../components/Api.js';
-import {setProfile} from '../components/profile.js';
-import {renderCardList } from '../components/Card.js';
+import FormValidator, { enableValidation } from '../components/FormValidator.js';
+import Api from '../components/Api.js';
+import { setProfile } from '../components/profile.js';
+import { renderCardList } from '../components/Сard.js';
 
 export let userId;
 
@@ -16,7 +16,7 @@ const api = new Api();
 
 //ИНИЦИАЛИЗАЦИЯ
 Promise.all([api.getUser(), api.getCards()])
-  .then(([userData, cards])=>{
+  .then(([userData, cards]) => {
 
     //ДАННЫЕ ПРОФИЛЯ
     userId = userData._id;
@@ -35,9 +35,13 @@ Promise.all([api.getUser(), api.getCards()])
       errorClass: 'popup__input-error_active'
     };
 
-    enableValidation(options);
+    document.querySelectorAll(options.formSelector).forEach(formElement => {
+        const formValidator = new FormValidator(options, formElement);
+        formValidator.enableValidation();
+    });
+
   })
-  .catch(err=>console.log(`Не удалось связаться с сервером ${err}`));
+  .catch(err => console.log(`Не удалось связаться с сервером ${err}`));
 
 
 

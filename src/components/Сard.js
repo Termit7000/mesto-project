@@ -17,7 +17,6 @@ const inputImgName = formCard.querySelector('.popup__input_img-name');
 const inputLink = formCard.querySelector('.popup__input_img-link');
 
 const elements = document.querySelector('.elements');
-const cardTempl = document.querySelector('.templates').content.querySelector('.elements__list-item');
 
 const popupConfirmation = document.querySelector('.confirmation-popup');
 const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__form');
@@ -139,8 +138,6 @@ export default class Card {
 function removeCard(card) {
   card.remove();
 }
-
-
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
 

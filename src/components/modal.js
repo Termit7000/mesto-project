@@ -39,7 +39,7 @@ function closeByEscape(event) {
  */
 document.querySelectorAll('.popup').forEach(popup=>{
 
-  popup.addEventListener('click', event=>{
+  popup.addEventListener('mousedown', event=>{
 
     if (event.target.classList.contains(POPUP_OPENED_CLASS)) {
       closePopup(popup);
