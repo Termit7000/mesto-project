@@ -1,15 +1,12 @@
 import './index.css';
-import '../components/Сard.js';
-import '../components/modal.js';
-import '../components/profile.js';
-import '../components/FormValidator.js';
-import '../components/Api.js';
 
 import Api from '../components/Api.js';
 import Card from '../components/Сard.js';
 import FormValidator from '../components/FormValidator.js';
 import { setProfile } from '../components/profile.js';
 import Section from '../components/Section';
+import Popup from '../components/Popup';
+import PopupWithImage from '../components/PopupWithImage';
 
 export let userId;
 
@@ -27,7 +24,21 @@ Promise.all([api.getUser(), api.getCards()])
     const section = new Section({
       items: cards,
       renderer: (cardJson) => {
-        const card = new Card({ data: cardJson }, '.elements__list-item');
+        const card = new Card({
+          data: cardJson,
+          handleTrashClick: function() {
+            const confirmationPopup =  new Popup('.confirmation-popup');
+            confirmationPopup.setEventListeners();
+            confirmationPopup.open();
+          } ,
+          handleCardClick: function(cardLink, cardName) {
+            const imgPopup = new PopupWithImage('.img-popup');
+            imgPopup.setEventListeners();
+            imgPopup.open(cardLink, cardName);
+          }
+
+        }
+        , '.elements__list-item');
         const cardElement = card.generate();
         section.addItem(cardElement);
       }

@@ -1,5 +1,3 @@
-import { openImg } from './imgForm.js';
-import { openPopup, closePopup } from './modal.js';
 import Api from './Api.js';
 import { renderLoading, setDefaultText, notifyFormOpened } from './utils.js';
 import { userId } from '../pages/index.js'
@@ -23,19 +21,15 @@ const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__f
 
 //ЭКСПОРТНЫЕ ФУНКЦИИ
 
-/**
- * Добавляет карточку места в HTML
- * @param {Element} card
- * @param {Element} место вставки карточки
- */
-export function insertCardHTML(card, place = elements) {
-  place.prepend(card);
-}
 export default class Card {
   _LIKE_BUTTON_SELECTOR = '.card__like-button';
   _TRASH_BUTTON_SELECTOR = '.card__trash-button';
-  constructor({ data }, selector) {
+  constructor({ data, handleCardClick, handleTrashClick }, selector) {
+
     this._data = data;
+    this._handleCardClick = handleCardClick;
+    this._handleTrashClick = handleTrashClick;
+
     this._selector = selector;
     this._cardId = data._id;
     this._isMine = data.owner._id === userId;
@@ -90,7 +84,7 @@ export default class Card {
       trashButton.addEventListener('click', () => {
         formConfirmation.cardId = this._cardId;
         formConfirmation.currentCard = this._element;
-        openPopup(popupConfirmation);
+        this._handleTrashClick();
       });
     }
   }
@@ -102,7 +96,7 @@ export default class Card {
 
     //POPUP IMG
     const popupButton = this._element.querySelector('.card__popup-button');
-    popupButton.addEventListener('click', () => openImg(this._cardLink, this._cardName));
+    popupButton.addEventListener('click', () =>  this._handleCardClick(this._cardLink, this._cardName));
   }
 
   generate() {

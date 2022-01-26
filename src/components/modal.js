@@ -1,5 +1,7 @@
 import { POPUP_OPENED_CLASS, POPUP_OPENED_SELECTOR, CLOSE_CLASS } from './utils/constants.js';
 
+
+
 /**
  * Закрывает модальное окно
  * @param {Element} popup - Модальное окно
@@ -37,6 +39,8 @@ function closeByEscape(event) {
  * Устанавливает всем кнопкам закрытия обработчки по закрытию попапа
  * я понял, что здесь предлагается отлавливать всплывающее событие от кнопки на попапе. Спасибо!
  */
+
+/*
 document.querySelectorAll('.popup').forEach(popup=>{
 
   popup.addEventListener('mousedown', event=>{
@@ -52,3 +56,4 @@ document.querySelectorAll('.popup').forEach(popup=>{
 });
 
 
+*/
