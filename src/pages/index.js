@@ -7,9 +7,14 @@ import { setProfile } from '../components/profile.js';
 import Section from '../components/Section';
 import Popup from '../components/Popup';
 import PopupWithImage from '../components/PopupWithImage';
+import PopupWithForm from '../components/PopupWithForm';
+import { renderLoading, setDefaultText } from '../components/utils';
 
 export let userId;
 
+const buttonAddCard = document.querySelector('.profile__add-button');
+const popupCard = document.querySelector('.card-popup');
+const buttonSubmit = popupCard.querySelector('.popup__button_event_submit');
 const api = new Api();
 
 //ИНИЦИАЛИЗАЦИЯ
@@ -20,31 +25,7 @@ Promise.all([api.getUser(), api.getCards()])
     userId = userData._id;
     setProfile(userData);
 
-    //КАРТОЧКИ МЕСТ
-    const section = new Section({
-      items: cards,
-      renderer: (cardJson) => {
-        const card = new Card({
-          data: cardJson,
-          handleTrashClick: function() {
-            const confirmationPopup =  new Popup('.confirmation-popup');
-            confirmationPopup.setEventListeners();
-            confirmationPopup.open();
-          } ,
-          handleCardClick: function(cardLink, cardName) {
-            const imgPopup = new PopupWithImage('.img-popup');
-            imgPopup.setEventListeners();
-            imgPopup.open(cardLink, cardName);
-          }
-
-        }
-        , '.elements__list-item');
-        const cardElement = card.generate();
-        section.addItem(cardElement);
-      }
-    }, '.elements');
-
-    section.renderItems();
+    renderCards(cards);
 
     //ПОДКЛЮЧЕНИЕ ВАЛИДАЦИИ
     const options = {
@@ -63,3 +44,56 @@ Promise.all([api.getUser(), api.getCards()])
 
   })
   .catch(err => console.log(`Не удалось связаться с сервером ${err}`));
+
+  function renderCards(cards, clearing) {
+        //КАРТОЧКИ МЕСТ
+        const section = new Section({
+          items: cards,
+          renderer: (cardJson) => {
+            const card = new Card({
+              data: cardJson,
+              handleTrashClick: function() {
+                const confirmationPopup =  new Popup('.confirmation-popup');
+                confirmationPopup.setEventListeners();
+                confirmationPopup.open();
+              } ,
+              handleCardClick: function(cardLink, cardName) {
+                const imgPopup = new PopupWithImage('.img-popup');
+                imgPopup.setEventListeners();
+                imgPopup.open(cardLink, cardName);
+              }
+
+            }
+            , '.elements__list-item');
+            const cardElement = card.generate();
+            section.addItem(cardElement);
+          }
+        }, '.elements');
+
+        section.renderItems(clearing);
+  }
+
+  buttonAddCard.addEventListener('click', () => {
+    // const evenFormOpened = new CustomEvent('formOpened');
+    // document.querySelector('.').dispatchEvent(evenFormOpened);
+
+    const popupAddCard = new PopupWithForm({
+      selector: '.card-popup',
+      handleFormSubmit: (formData) => {
+
+        renderLoading(buttonSubmit);
+
+        const nameCard = formData['popup__input_img-name'];
+        const linkCard = formData['popup__input_img-link'];
+        api.savePictureServer(nameCard, linkCard)
+          .then(card => {
+            renderCards([card], false);
+            popupAddCard.close();
+          })
+          .catch((error) => console.log(error))
+          .finally(() => setDefaultText(buttonSubmit));
+      }
+    });
+    popupAddCard.setEventListeners();
+    popupAddCard.open();
+  });

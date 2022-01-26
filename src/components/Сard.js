@@ -7,15 +7,6 @@ import { LIKE_CLASS } from './utils/constants.js';
 
 const api = new Api();
 
-const buttonAddCard = document.querySelector('.profile__add-button');
-const popupCard = document.querySelector('.card-popup');
-const buttonSubmit = popupCard.querySelector('.popup__button_event_submit');
-const formCard = popupCard.querySelector('.popup__form');
-const inputImgName = formCard.querySelector('.popup__input_img-name');
-const inputLink = formCard.querySelector('.popup__input_img-link');
-
-const elements = document.querySelector('.elements');
-
 const popupConfirmation = document.querySelector('.confirmation-popup');
 const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__form');
 
@@ -122,28 +113,6 @@ function removeCard(card) {
 }
 
 //ОБРАБОТЧИКИ СОБЫТИЙ
-
-buttonAddCard.addEventListener('click', function () {
-  notifyFormOpened(formCard);
-  openPopup(popupCard);
-});
-
-formCard.addEventListener('submit', function (evt) {
-  evt.preventDefault();
-  renderLoading(buttonSubmit);
-
-  const nameCard = inputImgName.value;
-  const linkCard = inputLink.value;
-  api.savePictureServer(nameCard, linkCard)
-    .then(card => {
-      renderCardList([card]);
-      closePopup(popupCard);
-      inputImgName.value = "";
-      inputLink.value = "";
-    })
-    .catch((error) => console.log(error))
-    .finally(() => setDefaultText(buttonSubmit));
-});
 
 popupConfirmation.addEventListener('submit', (evt) => {
 
