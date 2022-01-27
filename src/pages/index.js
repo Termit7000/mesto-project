@@ -3,24 +3,33 @@ import './index.css';
 import Api from '../components/Api.js';
 import Card from '../components/Сard.js';
 import FormValidator from '../components/FormValidator.js';
-import { setProfile } from '../components/profile.js';
 import Section from '../components/Section';
 import Popup from '../components/Popup';
 import PopupWithImage from '../components/PopupWithImage';
 import PopupWithForm from '../components/PopupWithForm';
 import { renderLoading, setDefaultText } from '../components/utils';
+import UserInfo from '../components/UserInfo';
 
 export let userId;
 
 const buttonAddCard = document.querySelector('.profile__add-button');
 const popupCard = document.querySelector('.card-popup');
 const buttonSubmit = popupCard.querySelector('.popup__button_event_submit');
-
+const buttonEditProfile = document.querySelector('.profile__edit-button');
 
 const popupConfirmation = document.querySelector('.confirmation-popup');
 const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__form');
+const descriptionProfile = document.querySelector('.profile__text');
+const nameProfile = document.querySelector('.profile__title');
+const avatarProfile = document.querySelector('.profile__avatar');
 
 const api = new Api();
+
+function setProfile({ name, about, avatar }) {
+  nameProfile.textContent = name;
+  descriptionProfile.textContent = about;
+  avatarProfile.src = avatar;
+}
 
 //ИНИЦИАЛИЗАЦИЯ
 Promise.all([api.getUser(), api.getCards()])
@@ -29,7 +38,6 @@ Promise.all([api.getUser(), api.getCards()])
     //ДАННЫЕ ПРОФИЛЯ
     userId = userData._id;
     setProfile(userData);
-
     renderCards(cards);
 
   })
@@ -75,6 +83,34 @@ function renderCards(cards, clearing) {
 
   section.renderItems(clearing);
 }
+
+buttonEditProfile.addEventListener('click', () => {
+  const userInfoPopup = new UserInfo({
+    selector: '.profile-popup',
+    selectorName: '.popup__input_name',
+    selectorAbout: '.popup__input_description',
+    handleGetUserInfo: () => {
+      api.getUser()
+        .then(data => {
+          userInfoPopup.updateUserInfo(data);
+          userInfoPopup.setEventListeners();
+          userInfoPopup.open();
+        })
+    },
+    handleFormSubmit: ({popup__input_name, popup__input_description}) => {
+
+      api.saveProfileServer(popup__input_name, popup__input_description)
+        .then(data => {
+          setProfile(data);
+          userInfoPopup.close();
+        })
+    }
+  });
+
+  userInfoPopup.getUserInfo();
+
+  // notifyFormOpened(formProfile);
+});
 
 buttonAddCard.addEventListener('click', () => {
   // const evenFormOpened = new CustomEvent('formOpened');
