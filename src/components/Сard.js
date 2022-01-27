@@ -1,14 +1,10 @@
 import Api from './Api.js';
-import { renderLoading, setDefaultText, notifyFormOpened } from './utils.js';
 import { userId } from '../pages/index.js'
 import { LIKE_CLASS } from './utils/constants.js';
 
 //УПРАВЛЕНИЕ КАРТОЧКАМИ
 
 const api = new Api();
-
-const popupConfirmation = document.querySelector('.confirmation-popup');
-const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__form');
 
 //ЭКСПОРТНЫЕ ФУНКЦИИ
 
@@ -73,8 +69,6 @@ export default class Card {
       trashButton.classList.add('card__trash-button_inactive');
     } else {
       trashButton.addEventListener('click', () => {
-        formConfirmation.cardId = this._cardId;
-        formConfirmation.currentCard = this._element;
         this._handleTrashClick();
       });
     }
@@ -100,33 +94,13 @@ export default class Card {
 
     return this._element;
   }
-}
 
-//ФУНКЦИИ ОБЩЕГО НАЗНАЧЕНИЯ
-
-/**
- * Удаляет карточку места
- * @param {Element} card - карточка места
- */
-function removeCard(card) {
-  card.remove();
-}
-
-//ОБРАБОТЧИКИ СОБЫТИЙ
-
-popupConfirmation.addEventListener('submit', (evt) => {
-
-  evt.preventDefault();
-  if (!evt.target.cardId) {
-    closePopup(popupConfirmation);
-    return;
+  remove() {
+    this._element.remove();
   }
 
-  const currentCard = evt.target.currentCard;
-  api.deleteCardServer(evt.target.cardId)
-    .then(() => {
-      removeCard(currentCard);
-      closePopup(popupConfirmation);
-    })
-    .catch((error) => console.log(error));
-});
+  getId() {
+    return this._cardId;
+  }
+
+}
