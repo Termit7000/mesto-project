@@ -1,25 +1,20 @@
-import Api from './Api.js';
-import { userId } from '../pages/index.js'
-import { LIKE_CLASS } from './utils/constants.js';
-
-//УПРАВЛЕНИЕ КАРТОЧКАМИ
-
-const api = new Api();
-
-//ЭКСПОРТНЫЕ ФУНКЦИИ
-
 export default class Card {
   _LIKE_BUTTON_SELECTOR = '.card__like-button';
   _TRASH_BUTTON_SELECTOR = '.card__trash-button';
-  constructor({ data, handleCardClick, handleTrashClick }, selector) {
+  _LIKE_CLASS = 'card__like-button_active';
+  constructor({ data, userId, handleCardClick, handleTrashClick, handleLike, handleUnLike }, selector) {
 
     this._data = data;
     this._handleCardClick = handleCardClick;
     this._handleTrashClick = handleTrashClick;
+    this._handleLike = handleLike;
+    this._handleUnLike = handleUnLike;
 
     this._selector = selector;
     this._cardId = data._id;
+    this._userId = userId;
     this._isMine = data.owner._id === userId;
+
     this._cardName = this._data.name;
     this._cardLink = this._data.link;
   }
@@ -43,21 +38,18 @@ export default class Card {
   }
 
   _toggleLikeStatus(likeButton) {
-    const handleLike = likeButton.classList.contains(LIKE_CLASS) ? api.unLikeCardServer.bind(api) : api.likeCardServer.bind(api);
-
-    handleLike(this._cardId)
-      .then(data => this._updateLikeStatus(data))
-      .catch((error) => console.log(error));
+    const handleLike = likeButton.classList.contains(this._LIKE_CLASS) ? this._handleUnLike : this._handleLike;
+    handleLike(this._cardId);
   }
 
-  _updateLikeStatus(data = this._data) {
-    const liked = Boolean(data.likes.find(el => el._id === userId));
+  updateLikeStatus(data = this._data) {
+    const liked = Boolean(data.likes.find(el => el._id === this._userId));
     const likeButton = this._element.querySelector(this._LIKE_BUTTON_SELECTOR);
 
     if (liked) {
-      likeButton.classList.add(LIKE_CLASS);
+      likeButton.classList.add(this._LIKE_CLASS);
     } else {
-      likeButton.classList.remove(LIKE_CLASS);
+      likeButton.classList.remove(this._LIKE_CLASS);
     }
 
     this._element.querySelector('.card__count-likes').textContent = data.likes.length;
@@ -88,7 +80,7 @@ export default class Card {
     this._element = this._getElement();
 
     this._setCardImg();
-    this._updateLikeStatus();
+    this.updateLikeStatus();
     this._setDeleteContext();
     this._setEventListeners();
 

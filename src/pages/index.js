@@ -3,22 +3,20 @@ import './index.css';
 import Api from '../components/Api.js';
 import Card from '../components/Сard.js';
 import FormValidator from '../components/FormValidator.js';
-import Section from '../components/Section';
-import Popup from '../components/Popup';
-import PopupWithImage from '../components/PopupWithImage';
-import PopupWithForm from '../components/PopupWithForm';
-import { renderLoading, setDefaultText } from '../components/utils';
-import UserInfo from '../components/UserInfo';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import { renderLoading, setDefaultText } from '../components/utils/utils.js';
 
-export let userId;
+
+let userId;
 
 const buttonAddCard = document.querySelector('.profile__add-button');
 const popupCard = document.querySelector('.card-popup');
 const buttonSubmit = popupCard.querySelector('.popup__button_event_submit');
 const buttonEditProfile = document.querySelector('.profile__edit-button');
 
-const popupConfirmation = document.querySelector('.confirmation-popup');
-const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__form');
 const descriptionProfile = document.querySelector('.profile__text');
 const nameProfile = document.querySelector('.profile__title');
 const avatarProfile = document.querySelector('.profile__avatar');
@@ -33,11 +31,9 @@ function setProfile({ name, about, avatar }) {
   avatarProfile.src = avatar;
 }
 
-//ИНИЦИАЛИЗАЦИЯ
 Promise.all([api.getUser(), api.getCards()])
   .then(([userData, cards]) => {
 
-    //ДАННЫЕ ПРОФИЛЯ
     userId = userData._id;
     setProfile(userData);
     renderCards(cards);
@@ -52,6 +48,7 @@ function renderCards(cards, clearing) {
     renderer: (cardJson) => {
       const card = new Card({
         data: cardJson,
+        userId: userId,
         handleTrashClick: ()=> {
 
           const confirmationPopup = new PopupWithForm({
@@ -74,7 +71,16 @@ function renderCards(cards, clearing) {
           const imgPopup = new PopupWithImage('.img-popup');
           imgPopup.setEventListeners();
           imgPopup.open(cardLink, cardName);
-        }
+        },
+        handleLike : cardId=> {
+                    api.likeCardServer(cardId)
+                      .then(data => card.updateLikeStatus(data))
+                      .catch((error) => console.log(error));},
+
+        handleUnLike : cardId => {
+          api.unLikeCardServer(cardId)
+                      .then(data => card.updateLikeStatus(data))
+                      .catch((error) => console.log(error)); }
 
       }
         , '.elements__list-item');
@@ -97,6 +103,7 @@ const userInfoPopup = new UserInfo({
         userInfoPopup.setEventListeners();
         userInfoPopup.open();
       })
+      .catch(error=>console.log(error));
   },
   handleFormSubmit: ({popup__input_name, popup__input_description}) => {
 
@@ -105,13 +112,12 @@ const userInfoPopup = new UserInfo({
         setProfile(data);
         userInfoPopup.close();
       })
+      .catch(error=>console.log(error));
   }
 });
 
 buttonEditProfile.addEventListener('click', () => {
   userInfoPopup.getUserInfo();
-
-  // notifyFormOpened(formProfile);
 });
 
 const popupAddCard = new PopupWithForm({
@@ -135,9 +141,6 @@ const popupAddCard = new PopupWithForm({
 popupAddCard.setEventListeners();
 
 buttonAddCard.addEventListener('click', () => {
-  // const evenFormOpened = new CustomEvent('formOpened');
-  // document.querySelector('.').dispatchEvent(evenFormOpened);
-
   popupAddCard.open();
 });
 
