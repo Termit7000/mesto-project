@@ -22,6 +22,8 @@ const formConfirmation = popupConfirmation.querySelector('.confirmation-popup__f
 const descriptionProfile = document.querySelector('.profile__text');
 const nameProfile = document.querySelector('.profile__title');
 const avatarProfile = document.querySelector('.profile__avatar');
+const avatarPopup = document.querySelector('.avatar-popup');
+const buttonSubmitAvatar = avatarPopup.querySelector('.popup__button_event_submit');
 
 const api = new Api();
 
@@ -84,57 +86,80 @@ function renderCards(cards, clearing) {
   section.renderItems(clearing);
 }
 
+const userInfoPopup = new UserInfo({
+  selector: '.profile-popup',
+  selectorName: '.popup__input_name',
+  selectorAbout: '.popup__input_description',
+  handleGetUserInfo: () => {
+    api.getUser()
+      .then(data => {
+        userInfoPopup.updateUserInfo(data);
+        userInfoPopup.setEventListeners();
+        userInfoPopup.open();
+      })
+  },
+  handleFormSubmit: ({popup__input_name, popup__input_description}) => {
+
+    api.saveProfileServer(popup__input_name, popup__input_description)
+      .then(data => {
+        setProfile(data);
+        userInfoPopup.close();
+      })
+  }
+});
+
 buttonEditProfile.addEventListener('click', () => {
-  const userInfoPopup = new UserInfo({
-    selector: '.profile-popup',
-    selectorName: '.popup__input_name',
-    selectorAbout: '.popup__input_description',
-    handleGetUserInfo: () => {
-      api.getUser()
-        .then(data => {
-          userInfoPopup.updateUserInfo(data);
-          userInfoPopup.setEventListeners();
-          userInfoPopup.open();
-        })
-    },
-    handleFormSubmit: ({popup__input_name, popup__input_description}) => {
-
-      api.saveProfileServer(popup__input_name, popup__input_description)
-        .then(data => {
-          setProfile(data);
-          userInfoPopup.close();
-        })
-    }
-  });
-
   userInfoPopup.getUserInfo();
 
   // notifyFormOpened(formProfile);
 });
 
+const popupAddCard = new PopupWithForm({
+  selector: '.card-popup',
+  handleFormSubmit: (formData) => {
+
+    renderLoading(buttonSubmit);
+
+    const nameCard = formData['popup__input_img-name'];
+    const linkCard = formData['popup__input_img-link'];
+    api.savePictureServer(nameCard, linkCard)
+      .then(card => {
+        renderCards([card], false);
+        popupAddCard.close();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setDefaultText(buttonSubmit));
+  }
+});
+
+popupAddCard.setEventListeners();
+
 buttonAddCard.addEventListener('click', () => {
   // const evenFormOpened = new CustomEvent('formOpened');
   // document.querySelector('.').dispatchEvent(evenFormOpened);
 
-  const popupAddCard = new PopupWithForm({
-    selector: '.card-popup',
-    handleFormSubmit: (formData) => {
+  popupAddCard.open();
+});
 
-      renderLoading(buttonSubmit);
+const popupAvatar = new PopupWithForm({
+  selector: '.avatar-popup',
+  handleFormSubmit: (formData) => {
+      renderLoading(buttonSubmitAvatar);
 
-      const nameCard = formData['popup__input_img-name'];
-      const linkCard = formData['popup__input_img-link'];
-      api.savePictureServer(nameCard, linkCard)
-        .then(card => {
-          renderCards([card], false);
-          popupAddCard.close();
+      api.updateAvatarServer(formData['avatar-popup__link'])
+        .then((data) => {
+          setProfile(data);
+          popupAvatar.close();
         })
         .catch((error) => console.log(error))
-        .finally(() => setDefaultText(buttonSubmit));
-    }
-  });
-  popupAddCard.setEventListeners();
-  popupAddCard.open();
+        .finally(() => setDefaultText(buttonSubmitAvatar));
+  }
+});
+
+popupAvatar.setEventListeners();
+
+avatarProfile.addEventListener('click', () => {
+  popupAvatar.open();
 });
 
 //ПОДКЛЮЧЕНИЕ ВАЛИДАЦИИ
