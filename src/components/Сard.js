@@ -75,6 +75,8 @@ export default class Card {
     //POPUP IMG
     const popupButton = this._element.querySelector('.card__popup-button');
     popupButton.addEventListener('click', () =>  this._handleCardClick(this._cardLink, this._cardName));
+
+    this._setDeleteContext();
   }
 
   generate() {
@@ -82,7 +84,6 @@ export default class Card {
 
     this._setCardImg();
     this.updateLikeStatus();
-    this._setDeleteContext();
     this._setEventListeners();
 
     return this._element;

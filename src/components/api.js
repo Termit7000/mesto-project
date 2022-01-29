@@ -1,20 +1,10 @@
-import { TOKEN, URL_SERVER } from '../utils/constants.js';
-
-
-const defaultConfig = {
-  baseUrl: URL_SERVER,
-  headers: {
-    authorization: TOKEN,
-    'Content-Type': 'application/json'
-  }
-}
-
+import { URL_SERVER } from '../utils/constants.js';
 //ЭКСПОРТНЫЕ ФУНКЦИИ
 
 export default class Api {
-  constructor({ baseUrl, headers } = defaultConfig) {
-    this.baseUrl = baseUrl;
-    this.headers = headers;
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
+    this._headers = headers;
   }
 
   /**
@@ -104,14 +94,14 @@ export default class Api {
 
     const config = {
       method: method,
-      headers: this.headers
+      headers: this._headers
     };
 
     if (body) {
       config.body = body;
     }
 
-    return fetch(`${URL_SERVER}${url_service}`, config)
+    return fetch(`${this._baseUrl}${url_service}`, config)
       .then(res => {
 
         if (res.ok) {
