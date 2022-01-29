@@ -2,6 +2,7 @@ export default class Card {
   _LIKE_BUTTON_SELECTOR = '.card__like-button';
   _TRASH_BUTTON_SELECTOR = '.card__trash-button';
   _LIKE_CLASS = 'card__like-button_active';
+  _ELEMENTS_SELECTOR =  '.elements__list-item';
   constructor({ data, userId, handleCardClick, handleTrashClick, handleLike, handleUnLike }, selector) {
 
     this._data = data;
@@ -21,9 +22,9 @@ export default class Card {
 
   _getElement() {
     const cardElement = document
-      .querySelector('.templates')
-      .content
       .querySelector(this._selector)
+      .content
+      .querySelector(this._ELEMENTS_SELECTOR)
       .cloneNode(true);
 
     return cardElement;
@@ -61,7 +62,7 @@ export default class Card {
       trashButton.classList.add('card__trash-button_inactive');
     } else {
       trashButton.addEventListener('click', () => {
-        this._handleTrashClick();
+        this._handleTrashClick(this._element, this._cardId);
       });
     }
   }

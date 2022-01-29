@@ -1,23 +1,32 @@
-import PopupWithForm from "./PopupWithForm";
 
-export default class UserInfo extends PopupWithForm {
-  constructor({ selector, selectorName, selectorAbout, handleGetUserInfo, handleFormSubmit }) {
-    super({selector, handleFormSubmit});
-    this._name = this._popup.querySelector(selectorName);
-    this._about = this._popup.querySelector(selectorAbout);
-    this._handleGetUserInfo = handleGetUserInfo;
+
+export default class UserInfo {
+  constructor({ selectorName, selectorAbout, selectorAvatar, handlerGetUserInfo, handlerSetUserInfo, handlerSetAvatar }) {
+
+    this._name = document.querySelector(selectorName);
+    this._about = document.querySelector(selectorAbout);
+    this._avatar = document.querySelector(selectorAvatar);
+
+    this._handlerGetUserInfo = handlerGetUserInfo;
+    this._handlerSetUserInfo = handlerSetUserInfo;
+    this._handlerSetAvatar = handlerSetAvatar;
   }
 
   getUserInfo() {
-    return this._handleGetUserInfo();
+    return this._handlerGetUserInfo();
   }
 
-  setUserInfo() {
-    this._handleFormSubmit(this._name.value, this._about.value);
+  setUserInfo(name, about) {
+    return this._handlerSetUserInfo(name, about);
   }
 
-  updateUserInfo({ name, about }) {
-    this._name.value = name;
-    this._about.value = about;
+  setAvatar(avatar) {
+    return this._handlerSetAvatar(avatar);
+  }
+
+  updateInfo(data) {
+    this._name.textContent = data.name;
+    this._about.textContent = data.about;
+    this._avatar.src = data.avatar;
   }
 }

@@ -1,4 +1,4 @@
-import { TOKEN, URL_SERVER } from './utils/constants.js';
+import { TOKEN, URL_SERVER } from '../utils/constants.js';
 
 
 const defaultConfig = {
@@ -41,6 +41,7 @@ export default class Api {
    * @param {String} about  - Описание (О себе)
    */
   saveProfileServer(name = 'sivanov', about = 'Описание') {
+
     const URL_SERVICE = '/users/me';
     const bodyRequest = JSON.stringify({ name: name, about: about });
     return this._executeRequest({ url_service: URL_SERVICE, method: 'PATCH', body: bodyRequest });

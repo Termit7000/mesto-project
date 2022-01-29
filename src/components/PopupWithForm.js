@@ -19,6 +19,10 @@ export default class PopupWithForm extends Popup {
     return this._formValues;
   }
 
+  getFormElement() {
+    return this._formElement;
+  }
+
   setEventListeners() {
     super.setEventListeners();
 
@@ -27,7 +31,11 @@ export default class PopupWithForm extends Popup {
       this._getInputValues();
 
       this._handleFormSubmit(this._formValues);
-      //this._formElement.reset();
     })
+  }
+
+  close() {
+    super.close();
+    this._formElement.reset();
   }
 }
