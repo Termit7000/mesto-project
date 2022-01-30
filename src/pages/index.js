@@ -163,6 +163,7 @@ buttonEditProfile.addEventListener('click', () => {
 });
 
 avatarProfile.addEventListener('click', () => {
+  notifyFormOpened(popupAvatar.getFormElement());
   popupAvatar.open();
 });
 
